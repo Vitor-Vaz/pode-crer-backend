@@ -3,7 +3,7 @@ const routes = express.Router();
 const Dream = require('./controllers/dreamController');
 const User = require('./controllers/userController')
 
-
+//teste de comentarioS
 
 routes.get('/dream', Dream.get);
 
