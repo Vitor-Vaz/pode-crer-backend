@@ -27,7 +27,7 @@ module.exports = {
     },
 
     async create(req,res){
-        const body = req.body
+        const body = req.body;
         try {
             UserModel.postUser(body)
             res.send({mensagem: "usuario inserido com sucesso"})

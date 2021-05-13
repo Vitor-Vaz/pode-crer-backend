@@ -21,7 +21,7 @@ module.exports = {
         }))
     },
 
-    async getOne(id){
+    async getOne(id) {
 
         const db = await Database();
 
@@ -35,9 +35,25 @@ module.exports = {
     async postUser(newuser) {
         const db = await Database();
 
-        await db.run(`INSERT INTO user (name, avatar, login, password, email, coins) VALUES (?, ?, ?, ?, ?, ?)`
-        , [newuser.name, newuser.avatar, newuser.login, newuser.password, newuser.email, newuser.coins]);
+        await db.run(`INSERT INTO user(
+            name, 
+            avatar, 
+            login, 
+            password, 
+            email, 
+            coins
+            ) VALUES (
+            "${newuser.name}", 
+            "${newuser.avatar}", 
+            "${newuser.login}", 
+            "${newuser.password}", 
+            "${newuser.email}", 
+            1000)
+            `);
+
         await db.close();
+
+
     },
 
     async delete(id) {
@@ -48,11 +64,17 @@ module.exports = {
         await db.close();
     },
 
-    async updateUser(newUser,id) {
+    async updateUser(newUser, id) {
         const db = await Database();
 
-        await db.run(`UPDATE user SET name = ?, avatar = ?, login = ?, password = ?, email = ?, coins = ? WHERE id = ?`, [newUser.name, newUser.avatar, newUser.login, newUser.password, newUser.email, newUser.coins, id])
-        
+        await db.run(`UPDATE user SET 
+        name = "${newUser.name}", 
+        avatar = "${newUser.avatar}", 
+        login = "${newUser.login}", 
+        password = "${newUser.password}", 
+        email = "${newUser.email}" 
+        WHERE id = ${id}`)
+
         await db.close();
     }
 

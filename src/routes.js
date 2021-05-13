@@ -22,12 +22,12 @@ routes.get('/user', User.getAll)
 routes.get('/user/:id', User.getById);
 
 //rota para criar um novo usuario
-routes.post('/user/create', User.create)
+routes.post('/user', User.create)
 
 //rota para deletar um usuario
-routes.delete('/user/delete/:id', User.deleteById)
+routes.delete('/user/:id', User.deleteById)
 
 //rota para atualzar informações de um usuario pelo id
-routes.put('/user/put/:id', User.putById) //TODO fazer o put 09/05/2021
+routes.put('/user/:id', User.putById)
 
 module.exports = routes;
