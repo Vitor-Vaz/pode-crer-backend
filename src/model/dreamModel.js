@@ -25,6 +25,17 @@ module.exports = {
         return dream
     },
 
+    async getOneDreamByName(name) {
+        const db = await Database();
+
+        const dream = await db.all(`SELECT * FROM dream WHERE name LIKE "${name}%"`)
+
+        await db.close()
+
+        return dream
+    }
+    ,
+
     async createDream(dream) {
 
         const db = await Database();

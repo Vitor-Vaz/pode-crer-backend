@@ -9,6 +9,8 @@ routes.get('/dream', Dream.get);
 
 routes.get('/dream/:id', Dream.getOne);
 
+routes.post('/dream/search', Dream.getName)
+
 routes.post('/dream', Dream.create);
 
 routes.put('/dream/:id', Dream.update);

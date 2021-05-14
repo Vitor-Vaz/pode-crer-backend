@@ -1,3 +1,4 @@
+const dreamModel = require('../model/dreamModel');
 const Dream = require('../model/dreamModel');
 
 
@@ -19,6 +20,15 @@ module.exports = {
 
         res.send(dream);
 
+    },
+
+    async getName(req, res) {
+        const name = req.body.search;
+        console.log(name)
+
+        const dream = await Dream.getOneDreamByName(name);
+
+        res.send(dream)
     },
 
     async create(req, res) {
