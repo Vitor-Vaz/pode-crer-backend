@@ -1,4 +1,5 @@
-const express = require('express');
+require("./config/firebase");
+const express = require("express");
 const server = express();
 
 const routes = require('./routes.js');
