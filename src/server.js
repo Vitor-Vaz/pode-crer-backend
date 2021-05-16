@@ -1,23 +1,23 @@
-require("./config/firebase");
-require("./config/db");
-const express = require("express");
+require('./config/firebase');
+require('./config/db');
+const express = require('express');
+
 const server = express();
-const UserModel = require("./models/user")
+const UserModel = require('./models/user');
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-//codigo de EXEMPLO
-server.get('/',async(_,__,next) => {
+// codigo de EXEMPLO
+server.get('/', async (_, __, next) => {
   const user = await UserModel.create({
-    name: "teste",
-    email: "teste@email.com"
-  })
+    name: 'teste',
+    email: 'teste@email.com',
+  });
   user.save();
-  next()
-})
-
+  next();
+});
 
 server.listen(
   8001,
-  console.log("Aplicação ligada! acesse-a pelo link http://localhost:8001/")
+  console.log('Aplicação ligada! acesse-a pelo link http://localhost:8001/'),
 );

@@ -2,40 +2,38 @@ const Database = require('../infra/config.js');
 
 module.exports = {
 
-    async get() {
+  async get() {
+    const db = await Database();
 
-        const db = await Database();
+    const users = await db.all('SELECT * FROM user');
 
-        const users = await db.all(`SELECT * FROM user`);
+    await db.close();
 
-        await db.close();
+    return users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      avatar: user.avatar,
+      login: user.login,
+      password: user.password,
+      email: user.email,
+      coins: user.coins,
+    }));
+  },
 
-        return users.map((user) => ({
-            id: user.id,
-            name: user.name,
-            avatar: user.avatar,
-            login: user.login,
-            password: user.password,
-            email: user.email,
-            coins: user.coins
-        }))
-    },
+  async getOne(id) {
+    const db = await Database();
 
-    async getOne(id) {
+    const user = await db.get(`SELECT * FROM user WHERE id = ${id}`);
 
-        const db = await Database();
+    await db.close();
 
-        const user = await db.get(`SELECT * FROM user WHERE id = ${id}`)
+    return user;
+  },
 
-        await db.close();
+  async postUser(newuser) {
+    const db = await Database();
 
-        return user;
-    },
-
-    async postUser(newuser) {
-        const db = await Database();
-
-        await db.run(`INSERT INTO user(
+    await db.run(`INSERT INTO user(
             name, 
             avatar, 
             login, 
@@ -51,32 +49,29 @@ module.exports = {
             1000)
             `);
 
-        await db.close();
+    await db.close();
+  },
 
+  async delete(id) {
+    const db = await Database();
 
-    },
+    await db.run(`DELETE FROM user WHERE id = ${id}`);
 
-    async delete(id) {
-        const db = await Database();
+    await db.close();
+  },
 
-        await db.run(`DELETE FROM user WHERE id = ${id}`)
+  async updateUser(newUser, id) {
+    const db = await Database();
 
-        await db.close();
-    },
-
-    async updateUser(newUser, id) {
-        const db = await Database();
-
-        await db.run(`UPDATE user SET 
+    await db.run(`UPDATE user SET 
         name = "${newUser.name}", 
         avatar = "${newUser.avatar}", 
         login = "${newUser.login}", 
         password = "${newUser.password}", 
         email = "${newUser.email}" 
-        WHERE id = ${id}`)
+        WHERE id = ${id}`);
 
-        await db.close();
-    }
+    await db.close();
+  },
 
-
-}
+};

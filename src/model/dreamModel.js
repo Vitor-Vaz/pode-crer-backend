@@ -2,45 +2,40 @@ const Database = require('../infra/config');
 
 module.exports = {
 
+  async getDreams() {
+    const db = await Database();
 
-    async getDreams() {
+    const dreams = await db.all('SELECT * FROM dream');
 
-        const db = await Database();
+    await db.close();
 
-        const dreams = await db.all('SELECT * FROM dream');
+    return dreams;
+  },
 
-        await db.close();
+  async getOneDream(id) {
+    const db = await Database();
 
-        return dreams
-    },
+    const dream = await db.get(`SELECT * FROM dream WHERE id = ${id}`);
 
-    async getOneDream(id) {
+    await db.close();
 
-        const db = await Database();
+    return dream;
+  },
 
-        const dream = await db.get(`SELECT * FROM dream WHERE id = ${id}`);
+  async getOneDreamByName(name) {
+    const db = await Database();
 
-        await db.close();
+    const dream = await db.all(`SELECT * FROM dream WHERE name LIKE "${name}%"`);
 
-        return dream
-    },
+    await db.close();
 
-    async getOneDreamByName(name) {
-        const db = await Database();
+    return dream;
+  },
 
-        const dream = await db.all(`SELECT * FROM dream WHERE name LIKE "${name}%"`)
+  async createDream(dream) {
+    const db = await Database();
 
-        await db.close()
-
-        return dream
-    }
-    ,
-
-    async createDream(dream) {
-
-        const db = await Database();
-
-        await db.run(`INSERT INTO dream(
+    await db.run(`INSERT INTO dream(
             name,
             description,
             donates,
@@ -52,39 +47,31 @@ module.exports = {
             0,
             ${dream.goal},
             "${dream.date_creation}"
-        ) `)
+        ) `);
 
-        await db.close();
+    await db.close();
 
+    // 1991
+  },
 
-        //1991
-    },
+  async updateDream(dream, id) {
+    const db = await Database();
 
-    async updateDream(dream, id) {
-
-        const db = await Database();
-
-        await db.run(`UPDATE dream SET
+    await db.run(`UPDATE dream SET
         name = "${dream.name}",
         description = "${dream.description}"
         WHERE id = ${id}
-        `)
+        `);
 
-        await db.close();
+    await db.close();
+  },
 
-    },
+  async deleteDream(id) {
+    const db = await Database();
 
-    async deleteDream(id){
+    await db.run(`DELETE FROM dream WHERE id = ${id}`);
 
-        const db = await Database();
+    await db.close();
+  },
 
-        await db.run(`DELETE FROM dream WHERE id = ${id}`)
-
-
-        await db.close();
-    }
-
-
-
-
-}
+};
