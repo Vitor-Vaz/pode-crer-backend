@@ -1,23 +1,23 @@
-const { QueryInterface, DataTypes } = require("sequelize");
-
-'use strict';
+// eslint-disable-next-line no-unused-vars
+const sequelize = require('sequelize');
 
 module.exports = {
-  up: (QueryInterface, Sequelize) => {
-     return QueryInterface.addColumn(
-       'users',
-       'login', {
-         type: DataTypes.STRING,
-         allowNull: false
-       },
-     )
+  /**
+   *
+   * @param {sequelize.QueryInterface} QueryInterface
+   * @param {sequelize} Sequelize
+   */
+  up: async (QueryInterface, Sequelize) => {
+    await QueryInterface.addColumn('users', 'login', {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
+    });
   },
-
-  down: (QueryInterface, Sequelize) => {
-     return QueryInterface.removeColumn(
-       'users',
-       'login',
-       );
-  }
+  /**
+   *
+   * @param {sequelize.QueryInterface} QueryInterface
+   */
+  down: async (QueryInterface) => {
+    await QueryInterface.removeColumn('users', 'login');
+  },
 };
-
