@@ -1,14 +1,13 @@
-require("./config/db/index");
-const express = require("express");
+require('./config/db/index');
+const express = require('express');
+
 const server = express();
-const routes = require('./routes')
+const routes = require('./routes');
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
-//codigo de EXEMPLO
 server.use(routes);
-
 
 server.listen(
   8001,

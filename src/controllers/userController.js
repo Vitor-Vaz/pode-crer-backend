@@ -2,90 +2,83 @@ const User = require('../models/user');
 
 module.exports = {
 
-    async getAll(req, res) {
+  async getAll(req, res) {
+    const users = await User.findAll();
 
-        const users = await User.findAll();
+    res.send(users);
+  },
 
+  async getById(req, res) {
+    const { id } = req.params;
 
-        res.send(users);
-    },
+    const user = await User.findOne({
+      where: {
+        id,
+      },
+    });
+    res.send(user);
+  },
 
+  async create(req, res) {
+    const {
+      name,
+      avatar,
+      login,
+      password,
+      email,
+    } = req.body;
 
-    async getById(req, res) {
+    const user = await User.create({
+      name, avatar, email, login, password, coins: 1000,
+    });
 
-        const id = req.params.id
+    res.send(user);
+  },
 
-        const user = await User.findOne({
-            where: {
-                id: id
-            }
-        });
-        res.send(user);
+  async deleteById(req, res) {
+    const { id } = req.params;
+    try {
+      const deleted = await User.findOne({
+        where: {
+          id,
+        },
+      });
 
+      deleted.destroy();
+      res.send({ mensagem: 'usuário deletado com sucesso' });
+    } catch (error) {
+      res.send(error);
+    }
+  },
 
-    },
+  async update(req, res) {
+    const { id } = req.params;
+    const {
+      name,
+      avatar,
+      login,
+      password,
+      email,
+    } = req.body;
 
-    async create(req, res) {
-        const {
-            name,
-            avatar,
-            login,
-            password,
-            email
-        } = req.body;
+    try {
+      const user = await User.findByPk(id);
+      if (!user) {
+        throw new Error('Usuario não existe');
+      }
 
-        const user = await User.create({ name, avatar, email, login, password, coins: 1000 });
+      user.name = name;
+      user.avatar = avatar;
+      user.login = login;
+      user.password = password;
+      user.email = email;
 
-        res.send(user);
-    },
+      await user.save();
 
-    async deleteById(req, res) {
-        const id = req.params.id
-        try {
-
-            const deleted = await User.findOne({
-                where: {
-                    id: id
-                }
-            })
-
-            deleted.destroy();
-            res.send({ mensagem: 'usuário deletado com sucesso' })
-        } catch (error) {
-            res.send(error)
-        }
-
-    },
-
-    async update(req, res) {
-        const id = req.params.id
-        const {
-            name,
-            avatar,
-            login,
-            password,
-            email
-        } = req.body;
-
-        try {
-            const user = await User.findByPk(id);
-            if (!user) {
-                throw new Error("Usuario não existe")
-            }
-
-            user.name = name;
-            user.avatar = avatar;
-            user.login = login;
-            user.password = password;
-            user.email = email;
-
-
-            await user.save()
-
-            res.send({ mensagem: "usuário atualizado com sucesso" })
-        } catch (error) {
-            res.send({ error: error.message });
-        }
-    },
+      res.send({ mensagem: 'usuário atualizado com sucesso' });
+    } catch (error) {
+      res.send({ error: error.message });
+    }
+  },
 
 };
