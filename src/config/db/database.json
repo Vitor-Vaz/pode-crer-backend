@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
+    "username": "admin",
+    "password": "adminpass",
     "storage": "./database.sqlite",
     "database": "pode_crer_dev",
     "host": "127.0.0.1",
     "dialect": "sqlite"
   },
   "test": {
-    "username": "root",
-    "password": null,
+    "username": "admin",
+    "password": "adminpass",
     "database": "pode_crer_test",
     "host": "127.0.0.1",
     "dialect": "sqlite"
   },
   "production": {
-    "username": "root",
-    "password": null,
+    "username": "admin",
+    "password": "adminpass",
     "database": "pode_crer_prod",
     "host": "127.0.0.1",
     "dialect": "sqlite"

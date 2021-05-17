@@ -18,6 +18,7 @@ routes.put('/dream/:id', Dream.update);
 routes.delete('/dream/:id', Dream.delete);
 
 
+
 routes.get('/user', User.getAll)
 
 //rota para ver um unico usuario existente pelo id
@@ -30,6 +31,6 @@ routes.post('/user', User.create)
 routes.delete('/user/:id', User.deleteById)
 
 //rota para atualzar informações de um usuario pelo id
-routes.put('/user/:id', User.putById)
+routes.put('/user/:id', User.update)
 
 module.exports = routes;
