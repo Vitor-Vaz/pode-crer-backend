@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon ./src/server.js",
     "init-db": "node ./src/infra/init.js",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,6 +27,9 @@
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.2",
     "nodemon": "^2.0.7"
   }
 }

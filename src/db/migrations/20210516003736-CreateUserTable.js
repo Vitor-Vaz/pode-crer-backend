@@ -1,12 +1,14 @@
-const { QueryInterface, DataTypes } = require("sequelize");
-("use strict");
+'use-strict';
+
+// eslint-disable-next-line no-unused-vars
+const { QueryInterface, DataTypes } = require('sequelize');
 
 module.exports = {
   /**
    * @param {QueryInterface} queryInterface
    */
   up: async (queryInterface) => {
-    await queryInterface.createTable("users", {
+    await queryInterface.createTable('users', {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -34,6 +36,6 @@ module.exports = {
    * @param {QueryInterface} queryInterface
    */
   down: async (queryInterface) => {
-    await queryInterface.dropTable('users')
+    await queryInterface.dropTable('users');
   },
 };

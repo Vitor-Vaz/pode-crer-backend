@@ -1,17 +1,17 @@
-const Path = require("path");
-const { Sequelize } = require("sequelize");
+const Path = require('path');
+const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: Path.resolve(__dirname, "..", "..", "..", "database.sqlite"),
+  dialect: 'sqlite',
+  storage: Path.resolve(__dirname, '..', '..', '..', 'database.sqlite'),
 });
 
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
+    console.log('Connection has been established successfully.');
   } catch (error) {
-    console.error("Unable to connect to the database:", error);
+    console.error('Unable to connect to the database:', error);
   }
 })();
 

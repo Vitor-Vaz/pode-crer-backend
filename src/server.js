@@ -12,5 +12,5 @@ server.use(routes);
 
 server.listen(
   8001,
-  console.log("Aplicação ligada! acesse-a pelo link http://localhost:8001/")
+  console.log('Aplicação ligada! acesse-a pelo link http://localhost:8001/'),
 );

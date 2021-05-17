@@ -1,77 +1,64 @@
 
-
-
 module.exports = {
 
-    async get(req, res) {
+  async get(req, res) {
+    const dreams = await Dream.getDreams();
 
-        const dreams = await Dream.getDreams();
+    res.send(dreams);
+  },
 
-        res.send(dreams);
-    },
+  async getOne(req, res) {
+    const { id } = req.params;
 
-    async getOne(req, res) {
+    const dream = await Dream.getOneDream(id);
 
-        const id = req.params.id;
+    res.send(dream);
+  },
 
-        const dream = await Dream.getOneDream(id);
+  async getName(req, res) {
+    const name = req.body.search;
+    console.log(name);
 
-        res.send(dream);
+    const dream = await Dream.getOneDreamByName(name);
 
-    },
+    res.send(dream);
+  },
 
-    async getName(req, res) {
-        const name = req.body.search;
-        console.log(name)
+  async create(req, res) {
+    const date = Date.now();
 
-        const dream = await Dream.getOneDreamByName(name);
+    const dream = {
+      name: req.body.name,
+      description: req.body.description,
+      goal: req.body.goal,
+      date_creation: date,
+    };
 
-        res.send(dream)
-    },
+    await Dream.createDream(dream);
 
-    async create(req, res) {
+    res.send('sonho criado');
+  },
 
-        const date = Date.now();
+  async update(req, res) {
+    const { id } = req.params;
 
+    const dream = {
+      name: req.body.name,
+      description: req.body.description,
+      goal: req.body.goal,
+    };
 
-        const dream = {
-            name: req.body.name,
-            description: req.body.description,
-            goal: req.body.goal,
-            date_creation: date
-        }
+    await Dream.updateDream(dream, id);
 
-        await Dream.createDream(dream);
+    res.send('sonho atualizado');
+  },
 
-        res.send("sonho criado");
+  async delete(req, res) {
+    const { id } = req.params;
 
-    },
+    await Dream.deleteDream(id);
 
-    async update(req, res) {
+    res.send('sonho deletado');
+  },
 
-        const id = req.params.id;
-
-        const dream = {
-            name: req.body.name,
-            description: req.body.description,
-            goal: req.body.goal
-        }
-
-        await Dream.updateDream(dream, id);
-
-        res.send("sonho atualizado");
-
-    },
-
-    async delete(req, res) {
-
-        const id = req.params.id;
-
-        await Dream.deleteDream(id);
-
-        res.send("sonho deletado");
-
-    }
-
-}
-
+};

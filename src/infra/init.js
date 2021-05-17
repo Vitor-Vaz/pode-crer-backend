@@ -2,11 +2,10 @@ const Database = require('./config');
 
 const initDb = {
 
-    async init() {
+  async init() {
+    const db = await Database();
 
-        const db = await Database();
-
-        await db.exec(` CREATE TABLE user (
+    await db.exec(` CREATE TABLE user (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
         avatar TEXT,
@@ -16,7 +15,7 @@ const initDb = {
         coins INT
 )`);
 
-        await db.exec(`CREATE TABLE dream (
+    await db.exec(`CREATE TABLE dream (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
         description TEXT,
@@ -24,7 +23,7 @@ const initDb = {
         goal INT,
         created_at DATETIME
         
-)`)
+)`);
 
     await db.run(`INSERT INTO user (
             name,
@@ -40,9 +39,9 @@ const initDb = {
             "nicao2020",
             "nicolas.cardia@gmail.com",
             "1000"
-);`)
+);`);
 
-        await db.run(`INSERT INTO dream (
+    await db.run(`INSERT INTO dream (
             name,
             description,
             donates,
@@ -54,10 +53,9 @@ const initDb = {
             0,
             1000,
             1617514376018
-);`)
+);`);
 
-
-await db.run(`INSERT INTO dream (
+    await db.run(`INSERT INTO dream (
         name,
         description,
         donates,
@@ -70,13 +68,10 @@ await db.run(`INSERT INTO dream (
         5000,
         1617514376018
 );
-`)
+`);
 
-
-    await db.close()
-
-    }
-}
-
+    await db.close();
+  },
+};
 
 initDb.init();
