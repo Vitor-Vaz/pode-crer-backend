@@ -14,21 +14,6 @@ module.exports = {
       {
         type: Sequelize.DataTypes.STRING,
       },
-      'login',
-      {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-      },
-      'password',
-      {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-      },
-      'coins',
-      {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-      },
     );
   },
   /**
@@ -38,9 +23,6 @@ module.exports = {
     await QueryInterface.removeColumn(
       'users',
       'avatar',
-      'password',
-      'login',
-      'coins',
     );
   },
 };
