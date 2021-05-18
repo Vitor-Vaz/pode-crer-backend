@@ -38,24 +38,34 @@ module.exports = {
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      const {
-        password,
-        email,
-      } = req.body;
+      try {
+        const {
+          password,
+          email,
+        } = req.body;
+        const userAlreadyExists = await User.findOne({
+          where: { email },
+        });
 
-      await User.create({
-        email, coins: 1000,
-      });
+        if (userAlreadyExists) {
+          throw new Error('User already existis');
+        }
+        await User.create({
+          email, coins: 1000,
+        });
 
-      const { email: userEmail, uid: authId } = await firebase.auth().createUser({
-        email,
-        password,
-      });
+        const { email: userEmail, uid: authId } = await firebase.auth().createUser({
+          email,
+          password,
+        });
 
-      return res.send({
-        email: userEmail,
-        firebaseAuthId: authId,
-      });
+        return res.send({
+          email: userEmail,
+          firebaseAuthId: authId,
+        });
+      } catch (error) {
+        return res.status(400).send({ e: error.message });
+      }
     },
   },
 

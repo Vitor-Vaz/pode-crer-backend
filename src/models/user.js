@@ -13,12 +13,6 @@ User.init({
   avatar: {
     type: DataTypes.STRING,
   },
-  login: {
-    type: DataTypes.STRING,
-  },
-  password: {
-    type: DataTypes.STRING,
-  },
   coins: {
     type: DataTypes.STRING,
   },
