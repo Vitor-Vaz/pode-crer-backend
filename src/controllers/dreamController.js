@@ -1,8 +1,9 @@
+const Dream = require('../models/dream')
 
 module.exports = {
 
   async get(req, res) {
-    const dreams = await Dream.getDreams();
+    const dreams = await Dream.findAll();
 
     res.send(dreams);
   },
@@ -10,55 +11,76 @@ module.exports = {
   async getOne(req, res) {
     const { id } = req.params;
 
-    const dream = await Dream.getOneDream(id);
-
+    const dream = await Dream.findOne({
+      where: {
+        id,
+      },
+    });
     res.send(dream);
   },
 
   async getName(req, res) {
-    const name = req.body.search;
-    console.log(name);
+    const { name } = req.params;
 
-    const dream = await Dream.getOneDreamByName(name);
-
+    const dream = await Dream.findOne({
+      where: {
+        name,
+      },
+    });
     res.send(dream);
   },
 
   async create(req, res) {
-    const date = Date.now();
+    const {
+      name,
+      descricao
+    } = req.body;
 
-    const dream = {
-      name: req.body.name,
-      description: req.body.description,
-      goal: req.body.goal,
-      date_creation: date,
-    };
+    const dream = await Dream.create({
+      name, descricao,
+    });
 
-    await Dream.createDream(dream);
-
-    res.send('sonho criado');
+    res.send(dream);
   },
 
   async update(req, res) {
     const { id } = req.params;
+    const {
+      name,
+      descricao,
+    } = req.body;
 
-    const dream = {
-      name: req.body.name,
-      description: req.body.description,
-      goal: req.body.goal,
-    };
+    try {
+      const dream = await Dream.findByPk(id);
+      if (!dream) {
+        throw new Error('Sonho não existe');
+      }
 
-    await Dream.updateDream(dream, id);
+      dream.name = name;
+      dream.descricao = descricao;
 
-    res.send('sonho atualizado');
+      await dream.save();
+
+      res.send({ mensagem: 'Sonho atualizado com sucesso' });
+    } catch (error) {
+      res.send({ error: error.message });
+    }
   },
 
   async delete(req, res) {
     const { id } = req.params;
+    try {
+      const deleted = await Dream.findOne({
+        where: {
+          id,
+        },
+      });
 
-    await Dream.deleteDream(id);
-
-    res.send('sonho deletado');
+      deleted.destroy();
+      res.send({ mensagem: 'Dream deletado com sucesso' });
+    } catch (error) {
+      res.send(error);
+    }
   },
 
 };
