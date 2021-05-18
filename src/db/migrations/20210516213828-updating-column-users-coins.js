@@ -9,7 +9,6 @@ module.exports = {
   up: async (QueryInterface, Sequelize) => {
     await QueryInterface.addColumn('users', 'coins', {
       type: Sequelize.DataTypes.INTEGER,
-      allowNull: false,
     });
   },
   /**
