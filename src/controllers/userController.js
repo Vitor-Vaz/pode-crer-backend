@@ -52,7 +52,7 @@ module.exports = {
         password,
       });
 
-      res.send({
+      return res.send({
         email: userEmail,
         firebaseAuthId: authId,
       });
@@ -131,9 +131,9 @@ module.exports = {
 
         await user.save();
 
-        res.send({ mensagem: 'usuário atualizado com sucesso' });
+        return res.send({ mensagem: 'usuário atualizado com sucesso' });
       } catch (error) {
-        res.send({ error: error.message });
+        return res.send({ error: error.message });
       }
     },
   },
