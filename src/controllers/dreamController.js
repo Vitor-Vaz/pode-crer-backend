@@ -1,4 +1,4 @@
-const Dream = require('../models/dream')
+const Dream = require('../models/dream');
 
 module.exports = {
 
@@ -22,25 +22,30 @@ module.exports = {
   async getName(req, res) {
     const { name } = req.params;
 
-    const dream = await Dream.findOne({
-      where: {
-        name,
-      },
-    });
-    res.send(dream);
+    try {
+      const dream = await Dream.findOne({
+        where: {
+          name,
+        },
+      });
+      if (!dream) {
+        throw new Error('Sonho não encontrado');
+      }
+
+      res.send(dream);
+    } catch (error) {
+      res.send({ error: error.message });
+    }
   },
 
   async create(req, res) {
     const {
       name,
-      descricao,
-      resume,
-      goal,
-      
+      description,
     } = req.body;
 
     const dream = await Dream.create({
-      name, descricao,resume,goal
+      name, description,
     });
 
     res.send(dream);
@@ -50,10 +55,7 @@ module.exports = {
     const { id } = req.params;
     const {
       name,
-      descricao,
-      resume,
-      goal,
-      
+      description,
     } = req.body;
 
     try {
@@ -63,10 +65,7 @@ module.exports = {
       }
 
       dream.name = name;
-      dream.descricao = descricao;
-      dream.resume = resume;
-      dream.goal = goal;
-
+      dream.description = description;
 
       await dream.save();
 

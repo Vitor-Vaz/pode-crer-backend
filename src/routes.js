@@ -4,11 +4,21 @@ const routes = express.Router();
 const Dream = require('./controllers/dreamController');// ? tirar o Dream?
 const User = require('./controllers/userController');
 
+const Donate = require('./models/donates');
+
+routes.post('/donate', async (req, res) => {
+  const { userId, dreamId } = req.body;
+
+  const donate = await Donate.create({ userId, dreamId });
+
+  res.send(donate);
+});
+
 routes.get('/dream', Dream.get);
 
 routes.get('/dream/:id', Dream.getOne);
 
-routes.post('/dream/search', Dream.getName);
+routes.get('/dream/:name', Dream.getName);
 
 routes.post('/dream', Dream.create);
 

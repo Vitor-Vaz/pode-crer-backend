@@ -1,13 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-class Dream extends Model { } 
+
+class Dream extends Model { }
 
 Dream.init({
     name: {
         type: DataTypes.STRING,
     },
-    descricao: {
+    description: {
         type: DataTypes.STRING,
     },
     resume: {
@@ -21,10 +22,11 @@ Dream.init({
     }
 
 }, {
-        sequelize,
-        timestamps: true,
-        modelName:'Dream'
-    });
+    sequelize,
+    timestamps: true,
+    modelName: 'Dream'
+});
+
 
 
 

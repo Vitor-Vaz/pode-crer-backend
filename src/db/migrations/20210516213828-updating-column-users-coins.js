@@ -8,7 +8,9 @@ module.exports = {
    */
   up: async (QueryInterface, Sequelize) => {
     await QueryInterface.addColumn('users', 'coins', {
-      type: Sequelize.DataTypes.INTEGER,
+      type: Sequelize.DataTypes.DECIMAL,
+      defaultValue: 1000.0,
+      allowNull: false,
     });
   },
   /**
