@@ -1,7 +1,6 @@
 const firebase = require('firebase-admin');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
-const { body, validationResult } = require('express-validator');
 
 module.exports = {
   async getAll(req, res) {
