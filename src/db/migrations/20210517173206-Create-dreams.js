@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      descricao: {
+      description: {
         type:Sequelize.DataTypes.STRING,
         allowNull:false
       },

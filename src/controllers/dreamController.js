@@ -20,24 +20,37 @@ module.exports = {
   },
 
   async getName(req, res) {
-    const { name } = req.params;
+    const name  = req.params.name;
 
-    const dream = await Dream.findOne({
-      where: {
-        name,
-      },
-    });
-    res.send(dream);
+    try {
+
+      const dream = await Dream.findOne({
+        where: {
+          name: name,
+        },
+      });
+      if(!dream){
+        throw new Error("Sonho não encontrado");
+      }
+     
+      res.send(dream);
+    }catch(error){
+      res.send({error: error.message})
+    }
+
+
+
+    
   },
 
   async create(req, res) {
     const {
       name,
-      descricao
+      description
     } = req.body;
 
     const dream = await Dream.create({
-      name, descricao,
+      name, description,
     });
 
     res.send(dream);
@@ -47,7 +60,7 @@ module.exports = {
     const { id } = req.params;
     const {
       name,
-      descricao,
+      description,
     } = req.body;
 
     try {
@@ -57,7 +70,7 @@ module.exports = {
       }
 
       dream.name = name;
-      dream.descricao = descricao;
+      dream.description = description;
 
       await dream.save();
 

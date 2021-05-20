@@ -62,7 +62,7 @@ module.exports = {
                     email
                 } = req.body;
 
-                const user = await User.create({ name, avatar, email, login, password, coins: 1000 });
+                const user = await User.create({ name, avatar, email, login, password});
 
                 res.send(user);
             }
