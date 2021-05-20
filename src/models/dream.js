@@ -9,7 +9,17 @@ Dream.init({
     },
     descricao: {
         type: DataTypes.STRING,
+    },
+    resume: {
+        type: DataTypes.STRING,
+    },
+    goal: {
+        type: DataTypes.DECIMAL,
+    },
+    reached: {
+        type: DataTypes.DECIMAL
     }
+
 }, {
         sequelize,
         timestamps: true,

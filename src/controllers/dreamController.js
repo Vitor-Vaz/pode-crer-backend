@@ -33,11 +33,14 @@ module.exports = {
   async create(req, res) {
     const {
       name,
-      descricao
+      descricao,
+      resume,
+      goal,
+      
     } = req.body;
 
     const dream = await Dream.create({
-      name, descricao,
+      name, descricao,resume,goal
     });
 
     res.send(dream);
@@ -48,6 +51,9 @@ module.exports = {
     const {
       name,
       descricao,
+      resume,
+      goal,
+      
     } = req.body;
 
     try {
@@ -58,6 +64,9 @@ module.exports = {
 
       dream.name = name;
       dream.descricao = descricao;
+      dream.resume = resume;
+      dream.goal = goal;
+
 
       await dream.save();
 
