@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const Dream = require('../models/dream');
 
 module.exports = {
@@ -10,25 +11,35 @@ module.exports = {
 
   async getOne(req, res) {
     const { id } = req.params;
+    console.log('ai ai ai');
+    try {
+      const dream = await Dream.findByPk(id);
 
-    const dream = await Dream.findOne({
-      where: {
-        id,
-      },
-    });
-    res.send(dream);
+      if (!dream) {
+        throw new Error(`não foi encontrado o sonho com o id: ${id}`);
+      }
+
+      res.send(dream);
+    } catch (error) {
+      res.send({ error: error.message });
+    }
   },
 
   async getName(req, res) {
-    const { name } = req.params;
+    const { name, page } = req.params;
 
     try {
-      const dream = await Dream.findOne({
+      const dream = await Dream.findAll({
         where: {
-          name,
+          name: {
+            [Op.like]: `%${name}%`,
+          },
+
         },
+        limit: 3,
+        offset: (page - 1) * 3,
       });
-      if (!dream) {
+      if (!dream.length) {
         throw new Error('Sonho não encontrado');
       }
 
@@ -42,10 +53,13 @@ module.exports = {
     const {
       name,
       description,
+      resume,
+      goal,
+
     } = req.body;
 
     const dream = await Dream.create({
-      name, description,
+      name, description, resume, goal,
     });
 
     res.send(dream);
@@ -56,6 +70,9 @@ module.exports = {
     const {
       name,
       description,
+      resume,
+      goal,
+
     } = req.body;
 
     try {
@@ -66,6 +83,8 @@ module.exports = {
 
       dream.name = name;
       dream.description = description;
+      dream.resume = resume;
+      dream.goal = goal;
 
       await dream.save();
 
