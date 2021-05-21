@@ -25,11 +25,14 @@ module.exports = {
   },
 
   create: {
-
     validating: [
-      body('password').notEmpty().withMessage('O preenchimento desse campo é obrigatório'),
+      body('password')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório'),
       body('password').isString().withMessage('Esse campo não aceita numeros'),
-      body('email').notEmpty().withMessage('O preenchimento desse campo é obrigatório'),
+      body('email')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório'),
       body('email').isString().withMessage('Esse campo não aceita numeros'),
     ],
 
@@ -39,10 +42,7 @@ module.exports = {
         return res.status(400).json({ errors: errors.array() });
       }
       try {
-        const {
-          password,
-          email,
-        } = req.body;
+        const { password, email, name } = req.body;
         const userAlreadyExists = await User.findOne({
           where: { email },
         });
@@ -51,13 +51,16 @@ module.exports = {
           throw new Error('User already existis');
         }
         await User.create({
-          email, coins: 1000,
+          email,
+          name,
         });
 
-        const { email: userEmail, uid: authId } = await firebase.auth().createUser({
-          email,
-          password,
-        });
+        const { email: userEmail, uid: authId } = await firebase
+          .auth()
+          .createUser({
+            email,
+            password,
+          });
 
         return res.send({
           email: userEmail,
@@ -67,41 +70,68 @@ module.exports = {
         return res.status(400).send({ e: error.message });
       }
     },
+  },
 
+  async deleteById(req, res) {
+    const { id } = req.params;
+    try {
+      const deleted = await User.findOne({
+        where: {
+          id,
+        },
+      });
 
-    create: {
+      deleted.destroy();
+      res.send({ mensagem: 'usuário deletado com sucesso' });
+    } catch (error) {
+      res.send(error);
+    }
+  },
 
-        validating: [
+  update: {
+    validating: [
+      body('name')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório'),
+      body('name').isString().withMessage('Esse campo não aceita numeros'),
+      body('password')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório'),
+      body('password').isString().withMessage('Esse campo não aceita numeros'),
+      body('email')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório'),
+      body('email').isString().withMessage('Esse campo não aceita numeros'),
+    ],
 
-            body('name').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('name').isString().withMessage("Esse campo não aceita numeros"),
-            body('password').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('password').isString().withMessage("Esse campo não aceita numeros"),
-            body('email').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('email').isString().withMessage("Esse campo não aceita numeros"),
+    updating: async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
 
-        ],
+      const { id } = req.params;
+      const {
+        name, avatar, login, password, email,
+      } = req.body;
 
-        creating: async (req, res) => {
+      try {
+        await User.update(
+          {
+            name,
+            avatar,
+            login,
+            password,
+            email,
+          },
+          {
+            where: { id },
+          },
+        );
 
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-
-                return res.status(400).json({ errors: errors.array() });
-            } else {
-
-                const {
-                    name,
-                    avatar,
-                    login,
-                    password,
-                    email
-                } = req.body;
-
-                const user = await User.create({ name, avatar, email, login, password});
-
-                res.send(user);
-            }
+        const user = await User.findByPk(id);
+        if (!user) {
+          throw new Error('Usuario não existe');
         }
 
         user.name = name;
@@ -112,76 +142,10 @@ module.exports = {
 
         await user.save();
 
-        return res.send({ mensagem: 'usuário atualizado com sucesso' });
+        res.send({ mensagem: 'usuário atualizado com sucesso' });
       } catch (error) {
-        return res.send({ error: error.message });
+        res.send({ error: error.message });
       }
     },
-
-
-    update: {
-        validating: [
-            body('name').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('name').isString().withMessage("Esse campo não aceita numeros"),
-            body('password').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('password').isString().withMessage("Esse campo não aceita numeros"),
-            body('email').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('email').isString().withMessage("Esse campo não aceita numeros"),
-        ],
-
-        updating: async (req, res) => {
-
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-
-                return res.status(400).json({ errors: errors.array() });
-            } else {
-
-                const id = req.params.id
-                const {
-                    name,
-                    avatar,
-                    login,
-                    password,
-                    email
-                } = req.body;
-
-                try {
-
-                    await User.update(
-                        {
-                            name: name,
-                            avatar: avatar,
-                            login: login,
-                            password: password,
-                            email: email,
-                        },
-                        {
-                            where: { id: id }
-                        }
-                    )
-
-                    const user = await User.findByPk(id);
-                    if (!user) {
-                        throw new Error("Usuario não existe")
-                    }
-
-                    user.name = name;
-                    user.avatar = avatar;
-                    user.login = login;
-                    user.password = password;
-                    user.email = email;
-
-                    await user.save()
-
-                    res.send({ mensagem: "usuário atualizado com sucesso" })
-                } catch (error) {
-                    res.send({ error: error.message });
-                }
-
-            }
-        }
-    }
-
-
-}
+  },
+};
