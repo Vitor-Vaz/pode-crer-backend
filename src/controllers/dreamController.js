@@ -55,11 +55,10 @@ module.exports = {
       description,
       resume,
       goal,
-
+      userId,
     } = req.body;
-
     const dream = await Dream.create({
-      name, description, resume, goal,
+      name, description, resume, goal, userId,
     });
 
     res.send(dream);
