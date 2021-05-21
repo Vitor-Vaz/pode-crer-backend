@@ -33,12 +33,9 @@ module.exports = {
     create: {
 
         validating: [
+
             body('name').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
             body('name').isString().withMessage("Esse campo não aceita numeros"),
-            body('avatar').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('avatar').isString().withMessage("Esse campo não aceita numeros"),
-            body('login').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('login').isString().withMessage("Esse campo não aceita numeros"),
             body('password').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
             body('password').isString().withMessage("Esse campo não aceita numeros"),
             body('email').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
@@ -92,10 +89,6 @@ module.exports = {
         validating: [
             body('name').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
             body('name').isString().withMessage("Esse campo não aceita numeros"),
-            body('avatar').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('avatar').isString().withMessage("Esse campo não aceita numeros"),
-            body('login').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
-            body('login').isString().withMessage("Esse campo não aceita numeros"),
             body('password').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),
             body('password').isString().withMessage("Esse campo não aceita numeros"),
             body('email').notEmpty().withMessage("O preenchimento desse campo é obrigatório"),

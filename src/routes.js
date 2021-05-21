@@ -21,7 +21,7 @@ routes.get('/dream', Dream.get);
 
 routes.get('/dream/:id', Dream.getOne);
 
-routes.get('/dream/:name', Dream.getName);
+routes.get('/dream/search/:name/:page', Dream.getName);
 
 routes.post('/dream', Dream.create);
 
