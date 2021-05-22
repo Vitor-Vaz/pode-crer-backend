@@ -4,14 +4,24 @@ const Dream = require('../models/dream');
 module.exports = {
 
   async get(req, res) {
-    const dreams = await Dream.findAll();
+    
+    try{
+      const dreams = await Dream.findAll();
 
-    res.send(dreams);
+      if(!dreams.length){
+        throw new Error("Não foram encontrado registros de sonhos");
+      }
+
+      res.send(dreams);
+    }catch(error){
+      res.send({error: error.message});
+    }
+
   },
 
   async getOne(req, res) {
     const { id } = req.params;
-    console.log('ai ai ai');
+
     try {
       const dream = await Dream.findByPk(id);
 

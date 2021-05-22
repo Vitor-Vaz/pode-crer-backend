@@ -21,15 +21,8 @@ module.exports = {
         autoIncrement: true,
       },
 
-      status: {
-        type: Sequelize.DataTypes.ENUM('PENDING', 'DONE', 'CANCELED'),
-        defaultValue: 'PENDING',
-        allowNull: false,
-      },
-
       value: {
         type: Sequelize.DataTypes.DECIMAL,
-        defaultValue: 0.0,
         allowNull: false,
       },
 

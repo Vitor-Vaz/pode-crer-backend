@@ -6,16 +6,10 @@ const Dream = require('./dream');
 class Donates extends Model { }
 
 Donates.init({
-    status: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: 'PENDING'
-    },
 
     value: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0.0
     },
 
     userId: {
