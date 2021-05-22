@@ -4,9 +4,16 @@ const User = require('../models/user');
 
 module.exports = {
   async getAll(req, res) {
-    const users = await User.findAll();
-
-    res.send(users);
+    
+    try {
+      const users = await User.findAll();
+      if(!users) {
+        throw new Error("não tem nenhum usuario")
+      }
+      res.send(users);
+    } catch (error) {
+      res.send(error)
+    }
   },
 
   async getById(req, res) {
@@ -26,10 +33,7 @@ module.exports = {
 
   create: {
     validating: [
-      body('password')
-        .notEmpty()
-        .withMessage('O preenchimento desse campo é obrigatório'),
-      body('password').isString().withMessage('Esse campo não aceita numeros'),
+      body('password').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString().withMessage('Esse campo não aceita numeros'),
       body('email')
         .notEmpty()
         .withMessage('O preenchimento desse campo é obrigatório'),
@@ -48,7 +52,7 @@ module.exports = {
         });
 
         if (userAlreadyExists) {
-          throw new Error('User already existis');
+          throw new Error('Esse usuário já existe!');
         }
         await User.create({
           email,
@@ -80,7 +84,7 @@ module.exports = {
           id,
         },
       });
-
+      
       deleted.destroy();
       res.send({ mensagem: 'usuário deletado com sucesso' });
     } catch (error) {

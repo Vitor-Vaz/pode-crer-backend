@@ -20,9 +20,9 @@ routes.get('/dream/:id', Dream.getOne);
 
 routes.get('/dream/search/:name/:page', Dream.getName);
 
-routes.post('/dream', Dream.create);
+routes.post('/dream', Dream.create.validating, Dream.create.creating);
 
-routes.put('/dream/:id', Dream.update);
+routes.put('/dream/:id', Dream.update.validating, Dream.update.updating);
 
 routes.delete('/dream/:id', Dream.delete);
 
