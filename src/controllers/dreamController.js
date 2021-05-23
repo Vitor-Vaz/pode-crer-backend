@@ -16,12 +16,6 @@ module.exports = {
     } catch (error) {
       res.send({ error: error.message });
     }
-<<<<<<< HEAD
-
-
-    //res.send(dreams);
-=======
->>>>>>> 8e7e83ef391621501b27884a218c94a8076c14d1
   },
 
   async getOne(req, res) {

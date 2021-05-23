@@ -2,6 +2,8 @@ require('./config/db');
 require('./config/firebase');
 const express = require('express');
 const cors = require('cors');
+const port = process.env.LOCAL_HOST;
+
 
 const server = express();
 const routes = require('./routes');
@@ -13,6 +15,6 @@ server.use(express.urlencoded({ extended: true }));
 server.use(routes);
 
 server.listen(
-  8001,
-  console.log('Aplicação ligada! acesse-a pelo link http://localhost:8001/'),
+  port,
+  console.log('Aplicação ligada!🔥🔥'),
 );
