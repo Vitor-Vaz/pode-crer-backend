@@ -1,9 +1,10 @@
-require('./config/db');
+require('dotenv').config();
 require('./config/firebase');
+require('./config/db');
 const express = require('express');
 const cors = require('cors');
-const port = process.env.LOCAL_HOST;
 
+const port = process.env.LOCAL_HOST;
 
 const server = express();
 const routes = require('./routes');
