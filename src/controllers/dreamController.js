@@ -1,25 +1,27 @@
 const { Op } = require('sequelize');
-const { body, validationResult} = require ('express-validator')
+const { body, validationResult } = require('express-validator');
 const Dream = require('../models/dream');
 
 module.exports = {
 
   async get(req, res) {
-    
-    try{
+    try {
       const dreams = await Dream.findAll();
 
-      if(!dreams.length){
-        throw new Error("Não foram encontrado registros de sonhos");
+      if (!dreams.length) {
+        throw new Error('Não foram encontrado registros de sonhos');
       }
 
       res.send(dreams);
-    }catch(error){
-      res.send({error: error.message});
+    } catch (error) {
+      res.send({ error: error.message });
     }
+<<<<<<< HEAD
 
 
     //res.send(dreams);
+=======
+>>>>>>> 8e7e83ef391621501b27884a218c94a8076c14d1
   },
 
   async getOne(req, res) {
@@ -63,18 +65,23 @@ module.exports = {
 
   create: {
     validating: [
-      body('name').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString().withMessage('Esse campo não aceita números'),  
+      body('name').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString()
+        .withMessage('Esse campo não aceita números'),
       body('description').notEmpty().withMessage('O preenchimento desse campo é obrigatório!'),
       body('resume').optional().isString().withMessage('O preenchimento desse campo não é obrigatório!'),
-      body('goal').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isDecimal().withMessage('Esse campo só aceita números!').isLength({min:2}).withMessage('O valor minimo é de R$10'),
-      body('userId').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isNumeric().withMessage('Esse campo só aceita números!')
+      body('goal').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isDecimal()
+        .withMessage('Esse campo só aceita números!')
+        .isLength({ min: 2 })
+        .withMessage('O valor minimo é de R$10'),
+      body('userId').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isNumeric()
+        .withMessage('Esse campo só aceita números!'),
 
     ],
 
     creating: async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array()})
+        return res.status(400).json({ errors: errors.array() });
       }
       try {
         const {
@@ -89,29 +96,31 @@ module.exports = {
           name, description, resume, goal, userId,
         });
 
-        return res.send ({ 
-          dream
+        return res.send({
+          dream,
         });
-
       } catch (error) {
-        return res.status(400).send({e: error.message});
+        return res.status(400).send({ e: error.message });
       }
     },
   },
-  
 
-  update:{
+  update: {
     validating: [
-      body('name').optional().isString().notEmpty().isLength({min: 7}).withMessage('Formato inválido, de mais informações para o seu título!'),
+      body('name').optional().isString().notEmpty()
+        .isLength({ min: 7 })
+        .withMessage('Formato inválido, de mais informações para o seu título!'),
       body('description').optional().isString().withMessage('Esse campo não aceita números!'),
       body('resume').optional().isString().withMessage('Esse campo não aceita números!'),
-      body('goal').optional().isDecimal().withMessage('Esse campo só aceita números!').isLength({min:2}).withMessage('O valor minimo é R$10'),
+      body('goal').optional().isDecimal().withMessage('Esse campo só aceita números!')
+        .isLength({ min: 2 })
+        .withMessage('O valor minimo é R$10'),
     ],
 
-    updating: async(req, res) => {
+    updating: async (req, res) => {
       const errors = validationResult(req);
-      if(!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
       }
 
       const { id } = req.params;
@@ -120,17 +129,17 @@ module.exports = {
         description,
         resume,
         goal,
-  
+
       } = req.body;
       try {
         const dream = await Dream.findByPk(id);
         if (!dream) {
           throw new Error('Sonho não existe');
         }
-        
+
         await dream.update(req.body);
-        
-        res.send({ mensagem: 'Sonho atualizado com sucesso'});
+
+        res.send({ mensagem: 'Sonho atualizado com sucesso' });
       } catch (error) {
         res.send({ error: error.message });
       }
@@ -140,16 +149,15 @@ module.exports = {
   async delete(req, res) {
     const { id } = req.params;
     try {
-
       const dream = await Dream.findByPk(id);
-      if(!dream){
-        throw new Error("id não encontrado")
+      if (!dream) {
+        throw new Error('id não encontrado');
       }
 
       await dream.destroy();
       res.send({ mensagem: 'Sonho deletado com sucesso' });
     } catch (error) {
-      res.status(400).send({error:error.message});
+      res.status(400).send({ error: error.message });
     }
   },
 

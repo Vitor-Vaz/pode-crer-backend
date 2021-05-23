@@ -12,7 +12,7 @@ module.exports = async function ensureAuthentication(req, res, next) {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    throw new Error('Token inválido não esta presente');
+    throw new Error('Token inválido não existe');
   }
 
   const [, token] = authorization.split(' ');
