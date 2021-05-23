@@ -16,7 +16,6 @@ server.use(express.urlencoded({ extended: true }));
 
 server.use(routes);
 
-
 server.listen(
   port,
   console.log('Aplicação ligada!🔥🔥'),
