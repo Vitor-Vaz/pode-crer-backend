@@ -7,6 +7,14 @@
     "host": "127.0.0.1",
     "dialect": "sqlite"
   },
+  "hml":{
+    "username": "admin",
+    "password": "adminpass",
+    "database": "pode_crer_hml",
+    "storage": "./database.sqlite",
+    "host": "127.0.0.1",
+    "dialect": "sqlite"
+  },
   "test": {
     "username": "admin",
     "password": "adminpass",
