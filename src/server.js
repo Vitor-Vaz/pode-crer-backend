@@ -4,7 +4,7 @@ require('./config/db');
 const express = require('express');
 const cors = require('cors');
 
-const port = process.env.LOCAL_HOST;
+const port = process.env.PORT|| 3000;
 
 const server = express();
 const routes = require('./routes');
