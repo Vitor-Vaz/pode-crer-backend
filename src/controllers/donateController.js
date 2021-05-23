@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const Donates = require('../models/donates');
 const Dream = require('../models/dream');
 const Users = require('../models/user')
@@ -36,9 +37,55 @@ module.exports = {
     },
 
 
-    async allDonates(req, res) {
-        
-    }
+    async allDonatesInADream(req, res) {
+        const id = req.params.id;
 
+        try {
+            const donates = await Donates.findAll({
+                where: {
+                    dreamId: {
+                        [Op.like]: `${id}`
+                    }
+                }
+            });
+
+            if (!donates.length) {
+                throw new Error("Não foram encontrado registros de doações para esse sonho");
+            }
+
+            res.send(donates)
+        } catch (error) {
+            res.send({ error: error.message })
+        }
+
+
+    },
+
+    async allDonatesFromAUser(req, res) {
+
+        const id = req.params.id;
+
+        try {
+            const donates = await Donates.findAll({
+                where: {
+                    userId: {
+                        [Op.like]: `${id}`
+                    }
+                }
+            });
+
+            if (!donates.length) {
+                throw new Error("Não foram encontrado registros de doações desse usuario");
+            }
+            res.send(donates)
+
+        } catch (error) {
+            res.send({ error: error.message })
+        }
+
+
+
+
+    }
 
 }

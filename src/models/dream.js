@@ -30,6 +30,6 @@ Dream.init({
   modelName: 'Dream',
 });
 
-Dream.belongsTo(User, { foreignKey: 'userid', as: 'user_id' });
+Dream.belongsTo(User, { foreignKey: 'userId', as: 'user_id' });
 
 module.exports = Dream;
