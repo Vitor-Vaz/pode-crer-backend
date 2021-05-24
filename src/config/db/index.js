@@ -1,9 +1,7 @@
-const Path = require('path');
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: Path.resolve(__dirname, '..', '..', '..', 'database.sqlite'),
 });
 
 (async () => {
