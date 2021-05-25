@@ -42,7 +42,7 @@ routes.delete('/user/:id', User.deleteById);
 routes.put('/user/:id', User.update.validating, User.update.updating);
 
 routes.get('/user/history/:id', Donate.allDonatesFromAUser);
-
+//rota para hospedar foto de perfil do usuario na nuvem e atribuir o link no banco
 routes.post('/profile/:id', multer(multerConfig).single('imagem'), Index.uploadImage, User.updatePic)
 
 module.exports = routes;
