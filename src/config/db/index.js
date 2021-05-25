@@ -1,13 +1,10 @@
-const Path = require('path');
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: Path.resolve(__dirname, '..', '..', '..', 'database.sqlite'),
-});
+const sequelize = new Sequelize('sqlite::memory:'); // Example for sqlite
 
 (async () => {
   try {
+    await sequelize.sync({ force: true });
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
   } catch (error) {
