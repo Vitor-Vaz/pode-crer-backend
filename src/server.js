@@ -1,5 +1,4 @@
 require('dotenv').config();
-require('./config/db');
 require('./config/firebase');
 require('./config/db');
 const express = require('express');

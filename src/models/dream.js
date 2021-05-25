@@ -5,7 +5,7 @@ const User = require('./user');
 class Dream extends Model { }
 
 Dream.init({
-  name: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
   },
