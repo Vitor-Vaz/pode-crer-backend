@@ -4,10 +4,10 @@ const User = require('../models/user');
 
 module.exports = {
   async getAll(req, res) {
-    
+
     try {
       const users = await User.findAll();
-      if(!users) {
+      if (!users) {
         throw new Error("não tem nenhum usuario")
       }
       res.send(users);
@@ -81,14 +81,14 @@ module.exports = {
     try {
       const deleted = await User.findByPk(id);
 
-      if(!deleted){
+      if (!deleted) {
         throw new Error("Usuario não existe na base de dados");
       }
 
       deleted.destroy();
       res.send({ mensagem: 'usuário deletado com sucesso' });
     } catch (error) {
-      res.status(400).send({error: error.message});
+      res.status(400).send({ error: error.message });
     }
   },
 
@@ -152,4 +152,30 @@ module.exports = {
       }
     },
   },
+
+
+  async updatePic(req, res) {
+
+    const { id } = req.params;
+
+
+    try {
+
+      const user = await User.findByPk(id);
+
+      if (!user) {
+        throw new Error(`não foi encontrado o usuario com o id: ${id}`);
+      }
+      user.avatar = req.file.firebaseUrl;
+
+      await user.save();
+
+      res.send({ user });
+    } catch (error) {
+      res.send({ error: error.message });
+    }
+
+
+  }
+
 };
