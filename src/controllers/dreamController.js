@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 const { body, validationResult } = require('express-validator');
 const Dream = require('../models/dream');
+const AppError = require('../helper/AppError')
 
 module.exports = {
 
@@ -9,38 +10,40 @@ module.exports = {
       const dreams = await Dream.findAll();
 
       if (!dreams.length) {
-        throw new Error('Não foram encontrado registros de sonhos');
+       throw new AppError('Não foram encontrado registros de sonhos', 400);
       }
 
       res.send(dreams);
     } catch (error) {
-      res.send({ error: error.message });
-    }
+      res.send({error: error.status});
+    } 
   },
-
+ 
   async getOne(req, res) {
     const { id } = req.params;
     try {
       const dream = await Dream.findByPk(id);
 
       if (!dream) {
-        throw new Error(`não foi encontrado nenhum sonho com o id: ${id}`);
+        const AppError = require('../helper/AppError');
+         throw new AppError({ message: `Não foi encontrado nenhum sonho com o id ${id}`});
       }
 
       res.send(dream);
+
     } catch (error) {
-      res.send({ error: error.message });
+      res.status(400).send({ error: error.message });
     }
   },
 
-  async getName(req, res) {
-    const { name, page } = req.params;
+  async getTitle(req, res) {
+    const { title, page } = req.params;
 
     try {
       const dream = await Dream.findAll({
         where: {
-          name: {
-            [Op.like]: `%${name}%`,
+          title: {
+            [Op.like]: `%${title}%`,
           },
 
         },
@@ -48,7 +51,7 @@ module.exports = {
         offset: (page - 1) * 3,
       });
       if (!dream.length) {
-        throw new Error('nome do sonho não encontrado');
+        throw new Error('Título do sonho não encontrado');
       }
 
       res.send(dream);
@@ -59,7 +62,7 @@ module.exports = {
 
   create: {
     validating: [
-      body('name').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString()
+      body('title').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString()
         .withMessage('Esse campo não aceita números'),
       body('description').notEmpty().withMessage('O preenchimento desse campo é obrigatório!'),
       body('resume').optional().isString().withMessage('O preenchimento desse campo não é obrigatório!'),
@@ -79,7 +82,7 @@ module.exports = {
       }
       try {
         const {
-          name,
+          title,
           description,
           resume,
           goal,
@@ -87,7 +90,7 @@ module.exports = {
         } = req.body;
 
         const dream = await Dream.create({
-          name, description, resume, goal, userId,
+          title, description, resume, goal, userId,
         });
 
         return res.send({
@@ -101,7 +104,7 @@ module.exports = {
 
   update: {
     validating: [
-      body('name').optional().isString().notEmpty()
+      body('title').optional().isString().notEmpty()
         .isLength({ min: 7 })
         .withMessage('Formato inválido, de mais informações para o seu título!'),
       body('description').optional().isString().withMessage('Esse campo não aceita números!'),
@@ -119,7 +122,7 @@ module.exports = {
 
       const { id } = req.params;
       const {
-        name,
+        title,
         description,
         resume,
         goal,

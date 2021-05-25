@@ -1,9 +1,35 @@
 const express = require('express');
 
 const routes = express.Router();
-const Dream = require('./controllers/dreamController');// ? tirar o Dream?
+const Dream = require('./controllers/dreamController');
 const User = require('./controllers/userController');
 const Donate = require('./controllers/donateController');
+
+
+
+const multer = require('multer');
+
+const Index = require('./config/firebase/index')
+
+const Multer = multer({
+    storage: multer.memoryStorage(),
+    limits: 5 * 1024 * 1024,
+})
+
+
+routes.post('/profile', Multer.single('imagem'), Index.uploadImage, (req, res) => {
+
+    console.log(req.file.firebaseUrl);
+
+    res.send(req.file.firebaseUrl);
+})
+
+
+
+
+
+
+
 
 routes.post('/donate', Donate.donating);
 
@@ -13,7 +39,7 @@ routes.get('/dream', Dream.get);
 
 routes.get('/dream/:id', Dream.getOne);
 
-routes.get('/dream/search/:name/:page', Dream.getName);
+routes.get('/dream/search/:title/:page', Dream.getTitle);
 
 routes.post('/dream', Dream.create.validating, Dream.create.creating);
 
