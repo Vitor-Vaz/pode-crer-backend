@@ -1,9 +1,13 @@
 const express = require('express');
-
 const routes = express.Router();
-const Dream = require('./controllers/dreamController');// ? tirar o Dream?
+const Dream = require('./controllers/dreamController');
 const User = require('./controllers/userController');
 const Donate = require('./controllers/donateController');
+const multer = require('multer');
+const multerConfig = require('./config/multer');
+const Index = require('./config/firebase/firebaseStorage');
+
+
 
 routes.post('/donate', Donate.donating);
 
@@ -38,5 +42,7 @@ routes.delete('/user/:id', User.deleteById);
 routes.put('/user/:id', User.update.validating, User.update.updating);
 
 routes.get('/user/history/:id', Donate.allDonatesFromAUser);
+//rota para hospedar foto de perfil do usuario na nuvem e atribuir o link no banco
+routes.post('/profile/:id', multer(multerConfig).single('imagem'), Index.uploadImage, User.updatePic)
 
 module.exports = routes;
