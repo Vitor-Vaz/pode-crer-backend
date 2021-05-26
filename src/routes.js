@@ -37,6 +37,8 @@ routes.get('/dream/history/:id', Donate.allDonatesInADream);
 
 routes.get('/dream', Dream.get);
 
+routes.get('/dream/userdream/:userid', Dream.searchDreamUser);
+
 routes.get('/dream/:id', Dream.getOne);
 
 routes.get('/dream/search/:title/:page', Dream.getTitle);

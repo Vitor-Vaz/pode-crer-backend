@@ -18,6 +18,26 @@ module.exports = {
       res.send({error: error.status});
     } 
   },
+
+  async searchDreamUser (req, res) {
+    const idUser = req.params.userid;
+
+    try {
+      const dreamByUser = await Dream.findAll({
+        where: {
+          userId : idUser
+        }
+      });
+
+      if (!dreamByUser.length) {
+        throw new AppError({ message: `Esse usuario não tem sonhos cadastrados`})
+      }
+      res.send(dreamByUser)
+
+    } catch (error) {
+      res.status(400).send({error: error.message})
+    }
+  },
  
   async getOne(req, res) {
     const { id } = req.params;
@@ -25,7 +45,6 @@ module.exports = {
       const dream = await Dream.findByPk(id);
 
       if (!dream) {
-        const AppError = require('../helper/AppError');
          throw new AppError({ message: `Não foi encontrado nenhum sonho com o id ${id}`});
       }
 

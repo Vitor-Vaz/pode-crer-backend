@@ -58,7 +58,6 @@ module.exports = {
             res.send({ error: error.message })
         }
 
-
     },
 
     async allDonatesFromAUser(req, res) {
@@ -68,9 +67,7 @@ module.exports = {
         try {
             const donates = await Donates.findAll({
                 where: {
-                    userId: {
-                        [Op.like]: `${id}`
-                    }
+                    userId : id
                 }
             });
 
