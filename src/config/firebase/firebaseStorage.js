@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-const linkStorage = 'pode-crer-9a547.appspot.com';
+const linkStorage = process.env.FIREBASE_BUCKET_URL;
 
 const bucket = admin.storage().bucket(linkStorage);
 

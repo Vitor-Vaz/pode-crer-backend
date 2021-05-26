@@ -23,6 +23,9 @@ Dream.init({
     allowNull: false,
     defaultValue: 0.0,
   },
+  picture: {
+    type: DataTypes.STRING,
+  },
 
 }, {
   sequelize,

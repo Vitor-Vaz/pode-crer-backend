@@ -33,6 +33,14 @@ routes.put('/dream/:id', Dream.update.validating, Dream.update.updating);
 
 routes.delete('/dream/:id', Dream.delete);
 
+routes.post(
+  '/dream/picture/:id',
+  multer(multerConfig).single('imagem'),
+  Index.uploadImage,
+  Dream.updatePic,
+);
+
+
 routes.get('/user', User.getAll);
 
 routes.get('/user', User.getAll);
@@ -52,7 +60,7 @@ routes.put('/user/:id', User.update.validating, User.update.updating);
 routes.get('/user/history/:id', Donate.allDonatesFromAUser);
 // rota para hospedar foto de perfil do usuario na nuvem e atribuir o link no banco
 routes.post(
-  '/profile/:id',
+  '/user/profile/:id',
   multer(multerConfig).single('imagem'),
   Index.uploadImage,
   User.updatePic,

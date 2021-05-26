@@ -1,6 +1,7 @@
 const firebase = require('firebase-admin');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
+const AppError = require('../helper/AppError');
 
 module.exports = {
   async getAll(req, res) {
@@ -82,13 +83,13 @@ module.exports = {
       const deleted = await User.findByPk(id);
 
       if (!deleted) {
-        throw new Error("Usuario não existe na base de dados");
+        throw new AppError({message:"Usuario não existe na base de dados", statusCode:404});
       }
 
       deleted.destroy();
       res.send({ mensagem: 'usuário deletado com sucesso' });
     } catch (error) {
-      res.status(400).send({ error: error.message });
+      res.status(error.statusCode).send({ error: error.message });
     }
   },
 
@@ -96,16 +97,22 @@ module.exports = {
     validating: [
       body('name')
         .notEmpty()
-        .withMessage('O preenchimento desse campo é obrigatório'),
-      body('name').isString().withMessage('Esse campo não aceita numeros'),
+        .optional()
+        .isString()
+        .isLength({min: 3})
+        .withMessage('Formato invalido ou pequeno demais, verifique se houve erro na digitação'),
       body('password')
         .notEmpty()
-        .withMessage('O preenchimento desse campo é obrigatório'),
-      body('password').isString().withMessage('Esse campo não aceita numeros'),
+        .isString()
+        .optional()
+        .isLength({min: 7})
+        .withMessage('Senha inválida, verifique novamente o formato'),
       body('email')
         .notEmpty()
-        .withMessage('O preenchimento desse campo é obrigatório'),
-      body('email').isString().withMessage('Esse campo não aceita numeros'),
+        .isString()
+        .optional()
+        .isEmail()
+        .withMessage('Formato inválido, verifique se seu email está correto'),
     ],
 
     updating: async (req, res) => {
@@ -115,42 +122,20 @@ module.exports = {
       }
 
       const { id } = req.params;
-      const {
-        name, avatar, login, password, email,
-      } = req.body;
 
       try {
-        await User.update(
-          {
-            name,
-            avatar,
-            login,
-            password,
-            email,
-          },
-          {
-            where: { id },
-          },
-        );
-
         const user = await User.findByPk(id);
+
         if (!user) {
-          throw new Error('Usuario não existe');
+          throw new AppError({message:'Usuario não existe', statusCode:404});
         }
 
-        user.name = name;
-        user.avatar = avatar;
-        user.login = login;
-        user.password = password;
-        user.email = email;
-
-        await user.save();
+        await user.update(req.body);
 
         res.send({ mensagem: 'usuário atualizado com sucesso' });
       } catch (error) {
-        res.send({ error: error.message });
+        res.status(error.statusCode).send({ error: error.message });
       }
-      //teste
     },
   },
 
@@ -165,7 +150,7 @@ module.exports = {
       const user = await User.findByPk(id);
 
       if (!user) {
-        throw new Error(`não foi encontrado o usuario com o id: ${id}`);
+        throw new AppError({message:`não foi encontrado o usuario com o id: ${id}`, statusCode: 404});
       }
       user.avatar = req.file.firebaseUrl;
 
@@ -173,7 +158,7 @@ module.exports = {
 
       res.send({ user });
     } catch (error) {
-      res.send({ error: error.message });
+      res.status(error.statusCode).send({ error: error.message });
     }
 
 

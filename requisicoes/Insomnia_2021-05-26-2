@@ -1,0 +1,545 @@
+_type: export
+__export_format: 4
+__export_date: 2021-05-26T07:11:35.282Z
+__export_source: insomnia.desktop.app:v2021.2.1
+resources:
+  - _id: req_67027467a2bd455d87577dcf6d2285d0
+    parentId: fld_231052dc18584985a0bec1b21a5eaf0a
+    modified: 1622013022805
+    created: 1621734530193
+    url: http://localhost:8001/user/history/2
+    name: todas as doações de um usuario
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1621481308716
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_231052dc18584985a0bec1b21a5eaf0a
+    parentId: wrk_c416f9295e8640a482568ff6f77b97af
+    modified: 1622013013949
+    created: 1622013013949
+    name: Doações
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1622013013949
+    _type: request_group
+  - _id: wrk_c416f9295e8640a482568ff6f77b97af
+    parentId: null
+    modified: 1620503666243
+    created: 1620503666243
+    name: pode-crer-requisições
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_39be63bceda14d5cb6117c41bdeac54c
+    parentId: fld_231052dc18584985a0bec1b21a5eaf0a
+    modified: 1622013019848
+    created: 1621733003484
+    url: http://localhost:8001/dream/history/1
+    name: histórico de doações daquele sonho
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1621481308666
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_53d68115557b4de181f836042d6f4e4b
+    parentId: fld_231052dc18584985a0bec1b21a5eaf0a
+    modified: 1622013018164
+    created: 1621481308616
+    url: http://localhost:8001/donate
+    name: cria donate
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"value": 100,
+        	"userId": 1,
+        	"dreamId": 1
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_8dca2ff15313465380350e1695faba9a
+    authentication: {}
+    metaSortKey: -1621481308616
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_1da020e316c543c89ab80ff22d63cc4f
+    parentId: fld_78ea29fa26854321991b5b6517249673
+    modified: 1622012988017
+    created: 1621201826881
+    url: http://localhost:8001/user/10
+    name: deleta usuario
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620874283789
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_78ea29fa26854321991b5b6517249673
+    parentId: wrk_c416f9295e8640a482568ff6f77b97af
+    modified: 1622012938350
+    created: 1622012938350
+    name: Usuarios
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1622012938350
+    _type: request_group
+  - _id: req_873bf5d765f44fdb9dcd0d8d02617abf
+    parentId: fld_78ea29fa26854321991b5b6517249673
+    modified: 1622012977831
+    created: 1622012804252
+    url: http://localhost:8001/dream/userdream/1
+    name: sonhos daquele usuario
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620874283739
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_6f225b47055a401d9efc2647588f8082
+    parentId: fld_78ea29fa26854321991b5b6517249673
+    modified: 1622012962582
+    created: 1621880094067
+    url: http://localhost:8001/user/profile/2
+    name: inserir foto de perfil
+    description: ""
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - name: imagem
+          value: ""
+          description: ""
+          id: pair_f6c1936645d44e8e8905d1803927b51d
+          type: file
+          fileName: /home/vitor/Imagens/mecicareca.png
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_28343215bf7947fba402afb5135acfe2
+    authentication: {}
+    metaSortKey: -1620874283689
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_bea523e313614fc9909a28cbf1829ae6
+    parentId: fld_78ea29fa26854321991b5b6517249673
+    modified: 1622012956468
+    created: 1621201551958
+    url: http://localhost:8001/user/1
+    name: pega um usuario pelo id
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1620874283639
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_f1a10e0644224dacb67170de8a8d6733
+    parentId: fld_78ea29fa26854321991b5b6517249673
+    modified: 1622012952508
+    created: 1620874995944
+    url: http://localhost:8001/user/2
+    name: Atualiza Usuario
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-2
+          {
+        		"name":"messi careca"
+          }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_5626663c9fe542b69607516a813c1bfd
+    authentication: {}
+    metaSortKey: -1620874283589
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_d997cc16da8a4be896d8b95481090311
+    parentId: fld_78ea29fa26854321991b5b6517249673
+    modified: 1622012950517
+    created: 1620873575641
+    url: http://localhost:8001/user
+    name: pega todos os usuarios
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: x-access-token
+        value: '"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYyMDkzNzU3NCwiZXhwIjoxNjIwOTM3ODc0fQ.z8OSDpnPCQI1sx08prvxQ16TbeDLf--A1pVv-JMgiEE"'
+        description: ""
+        id: pair_8ea89d641f0b4aa088ef5c957df6ec5d
+        disabled: false
+    authentication: {}
+    metaSortKey: -1620874283539
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_4db3e89ce9734da5af1be432973c802a
+    parentId: fld_78ea29fa26854321991b5b6517249673
+    modified: 1622012944589
+    created: 1620874283489
+    url: http://localhost:8001/user
+    name: cria usuario
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "teste",
+        	"login": "pwback",
+        	"password": "suavimNaNAve28",
+        	"email": "teste403@gmail.com"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_a329fa2b2b804efc8b451a5647b072e5
+    authentication: {}
+    metaSortKey: -1620874283489
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_de66b33f84db4f23b65ef97c07d47b21
+    parentId: fld_6aef8faea08c44fead965c3d59d815dc
+    modified: 1622012997284
+    created: 1621541445422
+    url: http://localhost:8001/dream/search/a/1
+    name: pesquisa o sonho pelo nome
+    description: ""
+    method: GET
+    body:
+      mimeType: multipart/form-data
+      params: []
+    parameters:
+      - name: name
+        value: comprar
+        description: ""
+        id: pair_f8a254647f884e02a8192d7caa7c82cb
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_ef776ff37b544f82bf00f081889a3198
+    authentication: {}
+    metaSortKey: -1622012874055
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_6aef8faea08c44fead965c3d59d815dc
+    parentId: wrk_c416f9295e8640a482568ff6f77b97af
+    modified: 1622012873730
+    created: 1622012873730
+    name: Rota de Sonhos
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1622012873730
+    _type: request_group
+  - _id: req_c4a4ebb4114845219d6285b62d38b200
+    parentId: fld_6aef8faea08c44fead965c3d59d815dc
+    modified: 1622012968821
+    created: 1622006343956
+    url: http://localhost:8001/dream/picture/2
+    name: insere foto no sonho
+    description: ""
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - name: imagem
+          value: ""
+          description: ""
+          id: pair_a5b3c92235fa4759a91d8f9726f237ea
+          type: file
+          multiline: null
+          fileName: /home/vitor/Imagens/pp.jpeg
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_e842f0a8942c4efd9b0ef28bdd18ebe2
+    authentication: {}
+    metaSortKey: -1622012874005
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_927c86407fcc4ddc95963f34840550f0
+    parentId: fld_6aef8faea08c44fead965c3d59d815dc
+    modified: 1622012927542
+    created: 1620525874380
+    url: http://localhost:8001/dream/10
+    name: Deleta sonho
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1622012873955
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e0d7246a42284b968910864737d7e68e
+    parentId: fld_6aef8faea08c44fead965c3d59d815dc
+    modified: 1622012913234
+    created: 1620525513057
+    url: http://localhost:8001/dream/1
+    name: Atualizando sonho
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-2
+          {
+            "title": " mamãe meo dels",
+            "description": "Minha mãe c",
+        		"resume":"umo bugai bendital uauau pega no meu pau"
+          }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_24525691009647e88f052a00ffdda739
+    authentication: {}
+    metaSortKey: -1622012873905
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_89c6d6851ab84fbeb175c7ba1ade457c
+    parentId: fld_6aef8faea08c44fead965c3d59d815dc
+    modified: 1622012904811
+    created: 1620524465017
+    url: http://localhost:8001/dream
+    name: cria sonho
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+          "title": "Comprar meu saveiro",
+          "description": "Gostaria de ajuda para ter uma renda(leia a descrição",
+          "resume": "Sou o josé, pai de duas filhas e casado a 7 anos com maria que é empregada doméstica, fui prejudicado pela enchente que teve em alagoinhas, meu antigo saveiro foi levado e deu pt, usava ele para entregar itens de material de construção na região e hoje estou sem emprego visto que dependo do carro para exercer o serviço, poderiam me ajudar?",
+           "goal": 30000,
+           "userId": 1
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_8d8df2f9817047088057c2f70bf0ca2a
+    authentication: {}
+    metaSortKey: -1622012873855
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_dee35a45faa146b4a3d1752ee779ac71
+    parentId: fld_6aef8faea08c44fead965c3d59d815dc
+    modified: 1622012900000
+    created: 1620503721288
+    url: http://localhost:8001/dream
+    name: pega todos os sonhos
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1622012873805
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_374fcadcd6a24a94834dd29aedd5c537
+    parentId: fld_6aef8faea08c44fead965c3d59d815dc
+    modified: 1622012891329
+    created: 1620504605242
+    url: http://localhost:8001/dream/1
+    name: pega um sonho pelo id
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1622012873755
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7d0c7da6015d4b15ad49939cca2dcf9c
+    parentId: wrk_c416f9295e8640a482568ff6f77b97af
+    modified: 1620958266559
+    created: 1620935520180
+    url: http://localhost:8001/login
+    name: login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+            "login": "vitim baaaaolado",
+            "password": "bitorbaz"
+        }
+    parameters: []
+    headers:
+      - name: ""
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjA5NTgwODcsImV4cCI6MTYyMDk1ODM4N30.g6ZNfS3eDifT_bFcAz0th61ykhxNKEE3GNhModDlWtI
+        description: ""
+        id: pair_8bcf32e246fd4481b43050eca7af2d46
+    authentication: {}
+    metaSortKey: -1620935520181
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_5383e98977a82dbe08bf9812a7add69fdfe76be0
+    parentId: wrk_c416f9295e8640a482568ff6f77b97af
+    modified: 1620503666701
+    created: 1620503666701
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1620503666701
+    _type: environment
+  - _id: jar_5383e98977a82dbe08bf9812a7add69fdfe76be0
+    parentId: wrk_c416f9295e8640a482568ff6f77b97af
+    modified: 1620503666707
+    created: 1620503666707
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_8175d5d6841440828c8c74f41491f7d9
+    parentId: wrk_c416f9295e8640a482568ff6f77b97af
+    modified: 1620503666253
+    created: 1620503666253
+    fileName: pode-crer-requisições
+    contents: ""
+    contentType: yaml
+    _type: api_spec
