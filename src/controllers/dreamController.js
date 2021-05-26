@@ -25,6 +25,26 @@ module.exports = {
     }
   },
 
+  async searchDreamUser (req, res) {
+    const idUser = req.params.userid;
+
+    try {
+      const dreamByUser = await Dream.findAll({
+        where: {
+          userId : idUser
+        }
+      });
+
+      if (!dreamByUser.length) {
+        throw new AppError({ message: `Esse usuario não tem sonhos cadastrados`})
+      }
+      res.send(dreamByUser)
+
+    } catch (error) {
+      res.status(400).send({error: error.message})
+    }
+  },
+ 
   async getOne(req, res) {
     const { id } = req.params;
     try {
@@ -35,6 +55,7 @@ module.exports = {
       }
 
       res.send(dream);
+
     } catch (error) {
       res.status(400).send({ error: error.message });
     }

@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-const linkStorage = 'pode-crer-hml.appspot.com';
+const linkStorage = 'pode-crer-9a547.appspot.com';
 
 const bucket = admin.storage().bucket(linkStorage);
 

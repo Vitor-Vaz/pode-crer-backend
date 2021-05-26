@@ -8,11 +8,20 @@ const Donate = require('./controllers/donateController');
 const multerConfig = require('./config/multer');
 const Index = require('./config/firebase/firebaseStorage');
 
+
+
+
+
+
+
+
 routes.post('/donate', Donate.donating);
 
 routes.get('/dream/history/:id', Donate.allDonatesInADream);
 
 routes.get('/dream', Dream.get);
+
+routes.get('/dream/userdream/:userid', Dream.searchDreamUser);
 
 routes.get('/dream/:id', Dream.getOne);
 
