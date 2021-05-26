@@ -18,7 +18,9 @@ Donates.init({
         references: {
             model: User,
             key: 'id'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
     },
 
     dreamId: {
@@ -27,7 +29,9 @@ Donates.init({
         references: {
             model: Dream,
             key: 'id'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
     }
 
 }, {

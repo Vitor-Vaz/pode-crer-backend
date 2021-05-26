@@ -8,11 +8,20 @@ const Donate = require('./controllers/donateController');
 const multerConfig = require('./config/multer');
 const Index = require('./config/firebase/firebaseStorage');
 
+
+
+
+
+
+
+
 routes.post('/donate', Donate.donating);
 
 routes.get('/dream/history/:id', Donate.allDonatesInADream);
 
 routes.get('/dream', Dream.get);
+
+routes.get('/dream/userdream/:userid', Dream.searchDreamUser);
 
 routes.get('/dream/:id', Dream.getOne);
 
@@ -23,6 +32,14 @@ routes.post('/dream', Dream.create.validating, Dream.create.creating);
 routes.put('/dream/:id', Dream.update.validating, Dream.update.updating);
 
 routes.delete('/dream/:id', Dream.delete);
+
+routes.post(
+  '/dream/picture/:id',
+  multer(multerConfig).single('imagem'),
+  Index.uploadImage,
+  Dream.updatePic,
+);
+
 
 routes.get('/user', User.getAll);
 
@@ -43,7 +60,7 @@ routes.put('/user/:id', User.update.validating, User.update.updating);
 routes.get('/user/history/:id', Donate.allDonatesFromAUser);
 // rota para hospedar foto de perfil do usuario na nuvem e atribuir o link no banco
 routes.post(
-  '/profile/:id',
+  '/user/profile/:id',
   multer(multerConfig).single('imagem'),
   Index.uploadImage,
   User.updatePic,

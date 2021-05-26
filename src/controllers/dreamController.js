@@ -16,27 +16,48 @@ module.exports = {
       });
 
       if (!dreams.length) {
-        throw new AppError('Não foram encontrado registros de sonhos', 400);
+        throw new AppError({message: 'Não foram encontrado registros de sonhos', statusCode: 400});
       }
 
       res.send(dreams);
     } catch (error) {
-      res.send({ error: error.status });
+      res.status(error.statusCode).send({error: error.message});
     }
   },
 
+  async searchDreamUser (req, res) {
+    const idUser = req.params.userid;
+
+    try {
+      const dreamByUser = await Dream.findAll({
+        where: {
+          userId : idUser
+        }
+      });
+
+      if (!dreamByUser.length) {
+        throw new AppError({ message: `Esse usuario não tem sonhos cadastrados`})
+      }
+      res.send(dreamByUser)
+
+    } catch (error) {
+      res.status(400).send({error: error.message})
+    }
+  },
+ 
   async getOne(req, res) {
     const { id } = req.params;
     try {
       const dream = await Dream.findByPk(id);
 
       if (!dream) {
-        throw new AppError({ message: `Não foi encontrado nenhum sonho com o id ${id}` });
+        throw new AppError({ message: `Não foi encontrado nenhum sonho com o id ${id}`, statusCode:400 });
       }
 
       res.send(dream);
+
     } catch (error) {
-      res.status(400).send({ error: error.message });
+      res.status(error.statusCode).send({ error: error.message });
     }
   },
 
@@ -54,12 +75,12 @@ module.exports = {
         offset: (page - 1) * 3,
       });
       if (!dream.length) {
-        throw new Error('Título do sonho não encontrado');
+        throw new AppError({message:`Nenhum sonho com o titulo ${title} foi encontrado`, statusCode:400});
       }
 
       res.send(dream);
     } catch (error) {
-      res.send({ error: error.message });
+      res.status(error.statusCode).send({ error: error.message });
     }
   },
 
@@ -94,23 +115,12 @@ module.exports = {
         return res.status(400).json({ errors: errors.array() });
       }
       try {
-        const {
-          title,
-          description,
-          resume,
-          goal,
-          userId,
-        } = req.body;
+        const dream = await Dream.create(req.body);
 
-        const dream = await Dream.create({
-          title, description, resume, goal, userId,
-        });
+        return res.send({dream});
 
-        return res.send({
-          dream,
-        });
       } catch (error) {
-        return res.status(400).send({ e: error.message });
+        return res.status(400).send({ error: error.message });
       }
     },
   },
@@ -148,14 +158,14 @@ module.exports = {
       try {
         const dream = await Dream.findByPk(id);
         if (!dream) {
-          throw new Error('Sonho não existe');
+          throw new AppError({message: 'Sonho não existe', statusCode: 400} );
         }
 
         await dream.update(req.body);
 
         res.send({ mensagem: 'Sonho atualizado com sucesso' });
       } catch (error) {
-        res.send({ error: error.message });
+        res.status(error.statusCode).send({ error: error.message });
       }
     },
   },
@@ -165,13 +175,36 @@ module.exports = {
     try {
       const dream = await Dream.findByPk(id);
       if (!dream) {
-        throw new Error('id não encontrado');
+        throw new AppError({message: 'Ops! parece que você tentou deletar um sonho inexistente!', statusCode: 400});
       }
 
       await dream.destroy();
       res.send({ mensagem: 'Sonho deletado com sucesso' });
     } catch (error) {
-      res.status(400).send({ error: error.message });
+      res.status(error.statusCode).send({ error: error.message });
     }
   },
+
+  async updatePic(req, res) {
+
+    try {
+      const { id } = req.params;
+
+      const dream = await Dream.findByPk(id);
+
+      if (!dream) {
+        throw new AppError({message: `não foi encontrado o sonho com o id: ${id}`, statusCode: 400});
+      }
+
+      dream.picture = req.file.firebaseUrl;
+
+      await dream.save();
+
+      res.send({ dream });
+
+    } catch (err) {
+      res.status(err.statusCode).send({ err: err.message });
+    }
+  }
+
 };

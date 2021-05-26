@@ -2,7 +2,7 @@ const { Op } = require('sequelize');
 const Donates = require('../models/donates');
 const Dream = require('../models/dream');
 const Users = require('../models/user')
-
+const AppError = require('../helper/AppError');
 
 module.exports = {
 
@@ -12,14 +12,24 @@ module.exports = {
         try {
             const user = await Users.findByPk(userId);
 
-            if (value > user.coins) {
-                throw new Error("Não foi possivel fazer doação, valor de créditos insuficiente!");
+            if(!user){
+                throw new AppError({ message: "Usuario não encontrado na base de dados", statusCode: 404 });
             }
+
+            if (value > user.coins) {
+                throw new AppError({ message: "Não foi possivel fazer doação, valor de créditos insuficiente!", statusCode: 203 });
+            }
+
+            const dream = await Dream.findByPk(dreamId);
+
+            if(!dream){
+                throw new AppError({ message: "Sonho não encontrado na base de dados", statusCode: 404 });
+            }
+
+
             user.coins = user.coins - value;
             await user.save();
 
-
-            const dream = await Dream.findByPk(dreamId);
             dream.reached = dream.reached + value;
             await dream.save();
 
@@ -30,7 +40,7 @@ module.exports = {
 
 
         } catch (err) {
-            res.send({ err: err.message });
+            res.status(err.statusCode).send({ err: err.message });
         }
 
 
@@ -43,21 +53,18 @@ module.exports = {
         try {
             const donates = await Donates.findAll({
                 where: {
-                    dreamId: {
-                        [Op.like]: `${id}`
-                    }
+                    dreamId: `${id}`
                 }
             });
 
             if (!donates.length) {
-                throw new Error("Não foram encontrado registros de doações para esse sonho");
+                throw new AppError({ message: "Não foram encontrado registros de doações para esse sonho", statusCode: 404 });
             }
 
             res.send(donates)
         } catch (error) {
-            res.send({ error: error.message })
+            res.status(error.statusCode).send({ error: error.message })
         }
-
 
     },
 
@@ -68,19 +75,17 @@ module.exports = {
         try {
             const donates = await Donates.findAll({
                 where: {
-                    userId: {
-                        [Op.like]: `${id}`
-                    }
+                    userId: `${id}`
                 }
             });
 
             if (!donates.length) {
-                throw new Error("Não foram encontrado registros de doações desse usuario");
+                throw new AppError({ message: "Não foram encontrado registros de doações para esse usuario", statusCode: 404 });
             }
             res.send(donates)
 
         } catch (error) {
-            res.send({ error: error.message })
+            res.status(error.statusCode).send({ error: error.message })
         }
 
 
