@@ -1,22 +1,28 @@
 const { Op } = require('sequelize');
 const { body, validationResult } = require('express-validator');
 const Dream = require('../models/dream');
-const AppError = require('../helper/AppError')
+const User = require('../models/user');
+const AppError = require('../helper/AppError');
 
 module.exports = {
-
   async get(req, res) {
     try {
-      const dreams = await Dream.findAll();
+      const dreams = await Dream.findAll({
+        include: {
+          model: User,
+          as: 'user_id',
+          attributes: ['name', 'avatar', 'email'],
+        },
+      });
 
       if (!dreams.length) {
-       throw new AppError('Não foram encontrado registros de sonhos', 400);
+        throw new AppError('Não foram encontrado registros de sonhos', 400);
       }
 
       res.send(dreams);
     } catch (error) {
-      res.send({error: error.status});
-    } 
+      res.send({ error: error.status });
+    }
   },
 
   async searchDreamUser (req, res) {
@@ -45,7 +51,7 @@ module.exports = {
       const dream = await Dream.findByPk(id);
 
       if (!dream) {
-         throw new AppError({ message: `Não foi encontrado nenhum sonho com o id ${id}`});
+        throw new AppError({ message: `Não foi encontrado nenhum sonho com o id ${id}` });
       }
 
       res.send(dream);
@@ -64,7 +70,6 @@ module.exports = {
           title: {
             [Op.like]: `%${title}%`,
           },
-
         },
         limit: 3,
         offset: (page - 1) * 3,
@@ -83,15 +88,25 @@ module.exports = {
     validating: [
       body('title').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString()
         .withMessage('Esse campo não aceita números'),
-      body('description').notEmpty().withMessage('O preenchimento desse campo é obrigatório!'),
-      body('resume').optional().isString().withMessage('O preenchimento desse campo não é obrigatório!'),
-      body('goal').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isDecimal()
+      body('description')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório!'),
+      body('resume')
+        .optional()
+        .isString()
+        .withMessage('O preenchimento desse campo não é obrigatório!'),
+      body('goal')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório!')
+        .isDecimal()
         .withMessage('Esse campo só aceita números!')
         .isLength({ min: 2 })
         .withMessage('O valor minimo é de R$10'),
-      body('userId').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isNumeric()
+      body('userId')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório!')
+        .isNumeric()
         .withMessage('Esse campo só aceita números!'),
-
     ],
 
     creating: async (req, res) => {
@@ -125,10 +140,21 @@ module.exports = {
     validating: [
       body('title').optional().isString().notEmpty()
         .isLength({ min: 7 })
-        .withMessage('Formato inválido, de mais informações para o seu título!'),
-      body('description').optional().isString().withMessage('Esse campo não aceita números!'),
-      body('resume').optional().isString().withMessage('Esse campo não aceita números!'),
-      body('goal').optional().isDecimal().withMessage('Esse campo só aceita números!')
+        .withMessage(
+          'Formato inválido, de mais informações para o seu título!',
+        ),
+      body('description')
+        .optional()
+        .isString()
+        .withMessage('Esse campo não aceita números!'),
+      body('resume')
+        .optional()
+        .isString()
+        .withMessage('Esse campo não aceita números!'),
+      body('goal')
+        .optional()
+        .isDecimal()
+        .withMessage('Esse campo só aceita números!')
         .isLength({ min: 2 })
         .withMessage('O valor minimo é R$10'),
     ],
@@ -140,13 +166,6 @@ module.exports = {
       }
 
       const { id } = req.params;
-      const {
-        title,
-        description,
-        resume,
-        goal,
-
-      } = req.body;
       try {
         const dream = await Dream.findByPk(id);
         if (!dream) {
@@ -176,5 +195,4 @@ module.exports = {
       res.status(400).send({ error: error.message });
     }
   },
-
 };

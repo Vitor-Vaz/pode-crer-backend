@@ -1,28 +1,12 @@
 const express = require('express');
 
 const routes = express.Router();
+const multer = require('multer');
 const Dream = require('./controllers/dreamController');
 const User = require('./controllers/userController');
 const Donate = require('./controllers/donateController');
-
-
-
-const multer = require('multer');
-
-const Index = require('./config/firebase/index')
-
-const Multer = multer({
-    storage: multer.memoryStorage(),
-    limits: 5 * 1024 * 1024,
-})
-
-
-routes.post('/profile', Multer.single('imagem'), Index.uploadImage, (req, res) => {
-
-    console.log(req.file.firebaseUrl);
-
-    res.send(req.file.firebaseUrl);
-})
+const multerConfig = require('./config/multer');
+const Index = require('./config/firebase/firebaseStorage');
 
 
 
@@ -66,5 +50,12 @@ routes.delete('/user/:id', User.deleteById);
 routes.put('/user/:id', User.update.validating, User.update.updating);
 
 routes.get('/user/history/:id', Donate.allDonatesFromAUser);
+// rota para hospedar foto de perfil do usuario na nuvem e atribuir o link no banco
+routes.post(
+  '/profile/:id',
+  multer(multerConfig).single('imagem'),
+  Index.uploadImage,
+  User.updatePic,
+);
 
 module.exports = routes;
