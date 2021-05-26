@@ -7,15 +7,9 @@ const User = require('./controllers/userController');
 const Donate = require('./controllers/donateController');
 const multerConfig = require('./config/multer');
 const Index = require('./config/firebase/firebaseStorage');
+const ensureAuthentication = require('./middlewares/ensureAuthentication');
 
-
-
-
-
-
-
-
-routes.post('/donate', Donate.donating);
+routes.post('/donate', ensureAuthentication, Donate.donating);
 
 routes.get('/dream/history/:id', Donate.allDonatesInADream);
 
@@ -39,7 +33,6 @@ routes.post(
   Index.uploadImage,
   Dream.updatePic,
 );
-
 
 routes.get('/user', User.getAll);
 
