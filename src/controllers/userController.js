@@ -95,6 +95,7 @@ module.exports = {
       }
 
       deleted.destroy();
+
       res.send({ mensagem: 'usuário deletado com sucesso' });
     } catch (error) {
       res.status(error.statusCode).send({ error: error.message });

@@ -14,18 +14,15 @@ Donates.init({
 
     userId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
             model: User,
             key: 'id'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+
     },
 
     dreamId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         references: {
             model: Dream,
             key: 'id'
