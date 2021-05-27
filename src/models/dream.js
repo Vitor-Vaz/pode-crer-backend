@@ -13,7 +13,7 @@ Dream.init({
     type: DataTypes.STRING,
   },
   resume: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(5000),
   },
   goal: {
     type: DataTypes.DECIMAL,
