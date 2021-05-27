@@ -17,9 +17,9 @@ module.exports = {
     },
   },
   production: {
-    username: 'admin',
-    password: 'adminpass',
-    storage: ':memory:',
-    dialect: 'sqlite',
+    username: 'oujpmkqkyxsuxt',
+    password: 'ff396a2538998bdb6f0c78b6aff58a1eaf0d2e3c48a9c265aaff9c7525d8837d',
+    storage: process.env.DATABASE_URL,
+    dialect: 'postgres',
   },
 };
