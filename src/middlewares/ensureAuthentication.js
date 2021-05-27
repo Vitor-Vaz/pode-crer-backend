@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 const express = require('express');
-const { clone } = require('ramda');
-const admin = require('firebase-admin');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth');
 const AppError = require('../helper/AppError');
 
 /**
@@ -19,10 +20,8 @@ module.exports = async function ensureAuthentication(req, res, next) {
   }
   try {
     const [, token] = authorization.split(' ');
-    const auth = admin.auth();
-    const decodedToken = await auth.verifyIdToken(token);
-    req.user = clone(decodedToken);
-
+    const decoded = await promisify(jwt.verify)(token, authConfig.secret);
+    req.userId = decoded.id;
     next();
   } catch (error) {
     throw new AppError({ message: 'Token inválido', statusCode: 401 });

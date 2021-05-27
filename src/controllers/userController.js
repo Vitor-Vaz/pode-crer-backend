@@ -1,19 +1,17 @@
-const firebase = require('firebase-admin');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 const AppError = require('../helper/AppError');
 
 module.exports = {
   async getAll(req, res) {
-
     try {
       const users = await User.findAll();
       if (!users) {
-        throw new Error("não tem nenhum usuario")
+        throw new Error('não tem nenhum usuario');
       }
       res.send(users);
     } catch (error) {
-      res.send(error)
+      res.send(error);
     }
   },
 
@@ -34,7 +32,8 @@ module.exports = {
 
   create: {
     validating: [
-      body('password').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString().withMessage('Esse campo não aceita numeros'),
+      body('password').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString()
+        .withMessage('Esse campo não aceita numeros'),
       body('email')
         .notEmpty()
         .withMessage('O preenchimento desse campo é obrigatório'),
@@ -55,21 +54,13 @@ module.exports = {
         if (userAlreadyExists) {
           throw new Error('Esse usuário já existe!');
         }
-        await User.create({
+        const user = await User.create({
           email,
           name,
+          password,
         });
-
-        const { email: userEmail, uid: authId } = await firebase
-          .auth()
-          .createUser({
-            email,
-            password,
-          });
-
         return res.send({
-          email: userEmail,
-          firebaseAuthId: authId,
+          user,
         });
       } catch (error) {
         return res.status(400).send({ e: error.message });
@@ -83,7 +74,7 @@ module.exports = {
       const deleted = await User.findByPk(id);
 
       if (!deleted) {
-        throw new AppError({message:"Usuario não existe na base de dados", statusCode:404});
+        throw new AppError({ message: 'Usuario não existe na base de dados', statusCode: 404 });
       }
 
       deleted.destroy();
@@ -99,13 +90,13 @@ module.exports = {
         .notEmpty()
         .optional()
         .isString()
-        .isLength({min: 3})
+        .isLength({ min: 3 })
         .withMessage('Formato invalido ou pequeno demais, verifique se houve erro na digitação'),
       body('password')
         .notEmpty()
         .isString()
         .optional()
-        .isLength({min: 7})
+        .isLength({ min: 7 })
         .withMessage('Senha inválida, verifique novamente o formato'),
       body('email')
         .notEmpty()
@@ -127,7 +118,7 @@ module.exports = {
         const user = await User.findByPk(id);
 
         if (!user) {
-          throw new AppError({message:'Usuario não existe', statusCode:404});
+          throw new AppError({ message: 'Usuario não existe', statusCode: 404 });
         }
 
         await user.update(req.body);
@@ -139,18 +130,14 @@ module.exports = {
     },
   },
 
-
   async updatePic(req, res) {
-
     const { id } = req.params;
 
-
     try {
-
       const user = await User.findByPk(id);
 
       if (!user) {
-        throw new AppError({message:`não foi encontrado o usuario com o id: ${id}`, statusCode: 404});
+        throw new AppError({ message: `não foi encontrado o usuario com o id: ${id}`, statusCode: 404 });
       }
       user.avatar = req.file.firebaseUrl;
 
@@ -160,8 +147,6 @@ module.exports = {
     } catch (error) {
       res.status(error.statusCode).send({ error: error.message });
     }
-
-
-  }
+  },
 
 };

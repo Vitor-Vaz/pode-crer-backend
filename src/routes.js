@@ -5,6 +5,7 @@ const multer = require('multer');
 const Dream = require('./controllers/dreamController');
 const User = require('./controllers/userController');
 const Donate = require('./controllers/donateController');
+const SessionController = require('./controllers/sessionController');
 const multerConfig = require('./config/multer');
 const Index = require('./config/firebase/firebaseStorage');
 const ensureAuthentication = require('./middlewares/ensureAuthentication');
@@ -58,5 +59,7 @@ routes.post(
   Index.uploadImage,
   User.updatePic,
 );
+
+routes.post('/session', SessionController.create);
 
 module.exports = routes;
