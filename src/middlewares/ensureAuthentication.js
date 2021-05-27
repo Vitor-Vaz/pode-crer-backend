@@ -2,6 +2,7 @@
 const express = require('express');
 const { clone } = require('ramda');
 const admin = require('firebase-admin');
+const AppError = require('../helper/AppError');
 
 /**
  * @param {express.Request} req
@@ -10,19 +11,20 @@ const admin = require('firebase-admin');
  */
 module.exports = async function ensureAuthentication(req, res, next) {
   const { authorization } = req.headers;
-
   if (!authorization) {
-    throw new Error('Token inválido não existe');
+    throw new AppError({
+      message: 'Token não existe',
+      statusCode: 401,
+    });
   }
-
-  const [, token] = authorization.split(' ');
-
   try {
+    const [, token] = authorization.split(' ');
     const auth = admin.auth();
     const decodedToken = await auth.verifyIdToken(token);
     req.user = clone(decodedToken);
+
     next();
   } catch (error) {
-    throw new Error('Token inválido');
+    throw new AppError({ message: 'Token inválido', statusCode: 401 });
   }
 };
