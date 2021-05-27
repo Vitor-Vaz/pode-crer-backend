@@ -1,10 +1,18 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('sqlite::memory:'); // Example for sqlite
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialectOptions:{
+    ssl: {
+      rejectUnauthorized: false,
+    }
+  }
+}); // Example for sqlite
+
 
 (async () => {
   try {
-    await sequelize.sync({ force: true });
+
+    await sequelize.sync();
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
   } catch (error) {

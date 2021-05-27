@@ -5,7 +5,7 @@ const User = require('./user');
 class Dream extends Model { }
 
 Dream.init({
-  name: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -13,7 +13,7 @@ Dream.init({
     type: DataTypes.STRING,
   },
   resume: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(5000),
   },
   goal: {
     type: DataTypes.DECIMAL,
@@ -22,6 +22,9 @@ Dream.init({
     type: DataTypes.DECIMAL,
     allowNull: false,
     defaultValue: 0.0,
+  },
+  picture: {
+    type: DataTypes.STRING,
   },
 
 }, {
