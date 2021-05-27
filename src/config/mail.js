@@ -7,6 +7,6 @@ module.exports = {
     pass: process.env.MAIL_PASS,
   },
   default: {
-    from: 'noreply@email.com',
+    from: process.env.MAIL_DEFAULT,
   },
 };

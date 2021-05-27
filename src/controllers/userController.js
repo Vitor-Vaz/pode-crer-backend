@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator');
+const Mail = require('../lib/Mail');
 const User = require('../models/user');
 const AppError = require('../helper/AppError');
 
@@ -61,6 +62,15 @@ module.exports = {
           email,
           name,
           password,
+        });
+
+        Mail.sendMail({
+          to: user.email,
+          template: 'greetins',
+          subject: 'Boas vindas ao pode crer',
+          context: {
+            name: user.name,
+          },
         });
 
         delete user.password;
