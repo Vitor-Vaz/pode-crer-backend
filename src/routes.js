@@ -62,4 +62,8 @@ routes.post(
 
 routes.post('/session', SessionController.create);
 
+routes.get('/', (req, res) => {
+  res.render('./root');
+});
+
 module.exports = routes;
