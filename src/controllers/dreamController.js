@@ -174,13 +174,17 @@ module.exports = {
     const { id } = req.params;
     try {
       const dream = await Dream.findByPk(id);
+      
       if (!dream) {
+        
         throw new AppError({message: 'Ops! parece que você tentou deletar um sonho inexistente!', statusCode: 400});
       }
-
-      await dream.destroy();
+      
+      dream.destroy();
+      console.log("to aqui");
       res.send({ mensagem: 'Sonho deletado com sucesso' });
     } catch (error) {
+      
       res.status(error.statusCode).send({ error: error.message });
     }
   },
