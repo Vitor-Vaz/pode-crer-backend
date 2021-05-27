@@ -39,8 +39,8 @@ module.exports = {
         .withMessage('O preenchimento desse campo é obrigatório'),
       body('email').isString().withMessage('Esse campo não aceita numeros'),
       body('avatar').not().exists().withMessage('Campo inválido!'),
-      body('coins').not().exists().withMessage('Campo inválido!')
-      
+      body('coins').not().exists().withMessage('Campo inválido!'),
+
     ],
 
     creating: async (req, res) => {
@@ -62,6 +62,10 @@ module.exports = {
           name,
           password,
         });
+
+        delete user.password;
+        delete user.password_hash;
+
         return res.send({
           user,
         });
@@ -108,7 +112,7 @@ module.exports = {
         .isEmail()
         .withMessage('Formato inválido, verifique se seu email está correto'),
       body('avatar').not().exists().withMessage('Campo inválido!'),
-      body('coins').not().exists().withMessage('Campo inválido!')
+      body('coins').not().exists().withMessage('Campo inválido!'),
     ],
 
     updating: async (req, res) => {
