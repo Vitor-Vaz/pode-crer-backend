@@ -9,7 +9,7 @@ module.exports = {
 
   up: async (QueryInterface, Sequelize) => {
     await QueryInterface.addColumn("dreams", "resume", {
-      type: Sequelize.DataTypes.STRING,
+      type: Sequelize.DataTypes.STRING(5000),
     });
 
     await QueryInterface.addColumn("dreams", "goal", {
