@@ -8,7 +8,7 @@ class Donates extends Model { }
 Donates.init({
 
     value: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL,
         allowNull: false,
     },
 
