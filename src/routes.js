@@ -22,9 +22,9 @@ routes.get('/dream/:id', Dream.getOne);
 
 routes.get('/dream/search/:title/:page', Dream.getTitle);
 
-routes.post('/dream', Dream.create.validating, Dream.create.creating);
+routes.post('/dream', ensureAuthentication, Dream.create.validating, Dream.create.creating);
 
-routes.put('/dream/:id', Dream.update.validating, Dream.update.updating);
+routes.put('/dream/:id', ensureAuthentication, Dream.update.validating, Dream.update.updating);
 
 routes.delete('/dream/:id', Dream.delete);
 
@@ -34,8 +34,6 @@ routes.post(
   Index.uploadImage,
   Dream.updatePic,
 );
-
-routes.get('/user', User.getAll);
 
 routes.get('/user', User.getAll);
 
@@ -49,7 +47,7 @@ routes.post('/user', User.create.validating, User.create.creating);
 routes.delete('/user/:id', User.deleteById);
 
 // rota para atualzar informações de um usuario pelo id
-routes.put('/user/:id', User.update.validating, User.update.updating);
+routes.put('/user/:id', ensureAuthentication, User.update.validating, User.update.updating);
 
 routes.get('/user/history/:id', Donate.allDonatesFromAUser);
 // rota para hospedar foto de perfil do usuario na nuvem e atribuir o link no banco
