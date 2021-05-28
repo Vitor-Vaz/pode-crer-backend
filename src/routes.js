@@ -9,24 +9,34 @@ const multerConfig = require('./config/multer');
 const Index = require('./config/firebase/firebaseStorage');
 const ensureAuthentication = require('./middlewares/ensureAuthentication');
 
+// Rota para fazer uma doação
 routes.post('/donate', ensureAuthentication, Donate.donating);
 
+// Rota para mostrar historico de doações que um sonho recebeu
 routes.get('/dream/history/:id', Donate.allDonatesInADream);
 
+//Rota para pegar todos os sonho
 routes.get('/dream', Dream.get);
 
+//Rota para pegar todos os sonhos de um usuario
 routes.get('/dream/userdream/:userid', Dream.searchDreamUser);
 
+//Rota para pegar um sonho pelo id
 routes.get('/dream/:id', Dream.getOne);
 
+//Rota para pegar um sonho pelo titulo
 routes.get('/dream/search/:title/:page', Dream.getTitle);
 
+//Rota para criar um novo sonho
 routes.post('/dream', Dream.create.validating, Dream.create.creating);
 
+//Rota para atualizar um sonho
 routes.put('/dream/:id', Dream.update.validating, Dream.update.updating);
 
+//Rota para deletar um usuario
 routes.delete('/dream/:id', Dream.delete);
 
+//Rota para adicioar uma imagem ao sonho
 routes.post(
   '/dream/picture/:id',
   multer(multerConfig).single('imagem'),
@@ -34,8 +44,7 @@ routes.post(
   Dream.updatePic,
 );
 
-routes.get('/user', User.getAll);
-
+//Rota para pegar todos os usuarios
 routes.get('/user', User.getAll);
 
 // rota para ver um unico usuario existente pelo id
