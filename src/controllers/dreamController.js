@@ -181,7 +181,6 @@ module.exports = {
       }
       
       dream.destroy();
-      console.log("to aqui");
       res.send({ mensagem: 'Sonho deletado com sucesso' });
     } catch (error) {
       

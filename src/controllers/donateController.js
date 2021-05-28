@@ -27,10 +27,10 @@ module.exports = {
             }
 
 
-            user.coins = Number(user.coins) - value;
+            user.coins = (Number(user.coins) - value).toFixed(2);
             await user.save();
 
-            dream.reached = Number(dream.reached) + value;
+            dream.reached = (Number(dream.reached) + value).toFixed(2);
             await dream.save();
 
             const donate = await Donates.create({ userId, dreamId, value });
