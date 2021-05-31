@@ -94,7 +94,7 @@ module.exports = {
         throw new AppError({ message: 'Usuario não existe na base de dados', statusCode: 404 });
       }
 
-      deleted.destroy();
+      await deleted.destroy();
 
       res.send({ mensagem: 'usuário deletado com sucesso' });
     } catch (error) {
