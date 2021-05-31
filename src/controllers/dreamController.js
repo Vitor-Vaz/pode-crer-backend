@@ -10,52 +10,52 @@ module.exports = {
       const dreams = await Dream.findAll({
         include: {
           model: User,
-          as: 'user_id',
+          as: 'user',
           attributes: ['name', 'avatar', 'email'],
         },
+        order: [['createdAt', 'DESC']],
       });
-
-      if (!dreams.length) {
-        throw new AppError({message: 'Não foram encontrado registros de sonhos', statusCode: 400});
-      }
 
       res.send(dreams);
     } catch (error) {
-      res.status(error.statusCode).send({error: error.message});
+      res.status(error.statusCode).send({ error: error.message });
     }
   },
 
-  async searchDreamUser (req, res) {
+  async searchDreamUser(req, res) {
     const idUser = req.params.userid;
 
     try {
       const dreamByUser = await Dream.findAll({
         where: {
-          userId : idUser
-        }
+          userId: idUser,
+        },
       });
 
       if (!dreamByUser.length) {
-        throw new AppError({ message: `Esse usuario não tem sonhos cadastrados`})
+        throw new AppError({
+          message: 'Esse usuario não tem sonhos cadastrados',
+        });
       }
-      res.send(dreamByUser)
-
+      res.send(dreamByUser);
     } catch (error) {
-      res.status(400).send({error: error.message})
+      res.status(400).send({ error: error.message });
     }
   },
- 
+
   async getOne(req, res) {
     const { id } = req.params;
     try {
       const dream = await Dream.findByPk(id);
 
       if (!dream) {
-        throw new AppError({ message: `Não foi encontrado nenhum sonho com o id ${id}`, statusCode:400 });
+        throw new AppError({
+          message: `Não foi encontrado nenhum sonho com o id ${id}`,
+          statusCode: 400,
+        });
       }
 
       res.send(dream);
-
     } catch (error) {
       res.status(error.statusCode).send({ error: error.message });
     }
@@ -75,7 +75,10 @@ module.exports = {
         offset: (page - 1) * 3,
       });
       if (!dream.length) {
-        throw new AppError({message:`Nenhum sonho com o titulo ${title} foi encontrado`, statusCode:400});
+        throw new AppError({
+          message: `Nenhum sonho com o titulo ${title} foi encontrado`,
+          statusCode: 400,
+        });
       }
 
       res.send(dream);
@@ -86,7 +89,10 @@ module.exports = {
 
   create: {
     validating: [
-      body('title').notEmpty().withMessage('O preenchimento desse campo é obrigatório!').isString()
+      body('title')
+        .notEmpty()
+        .withMessage('O preenchimento desse campo é obrigatório!')
+        .isString()
         .withMessage('Esse campo não aceita números'),
       body('description')
         .notEmpty()
@@ -117,8 +123,7 @@ module.exports = {
       try {
         const dream = await Dream.create(req.body);
 
-        return res.send({dream});
-
+        return res.send({ dream });
       } catch (error) {
         return res.status(400).send({ error: error.message });
       }
@@ -127,7 +132,10 @@ module.exports = {
 
   update: {
     validating: [
-      body('title').optional().isString().notEmpty()
+      body('title')
+        .optional()
+        .isString()
+        .notEmpty()
         .isLength({ min: 7 })
         .withMessage(
           'Formato inválido, de mais informações para o seu título!',
@@ -158,7 +166,7 @@ module.exports = {
       try {
         const dream = await Dream.findByPk(id);
         if (!dream) {
-          throw new AppError({message: 'Sonho não existe', statusCode: 400} );
+          throw new AppError({ message: 'Sonho não existe', statusCode: 400 });
         }
 
         await dream.update(req.body);
@@ -174,29 +182,32 @@ module.exports = {
     const { id } = req.params;
     try {
       const dream = await Dream.findByPk(id);
-      
+
       if (!dream) {
-        
-        throw new AppError({message: 'Ops! parece que você tentou deletar um sonho inexistente!', statusCode: 400});
+        throw new AppError({
+          message: 'Ops! parece que você tentou deletar um sonho inexistente!',
+          statusCode: 400,
+        });
       }
-      
+
       dream.destroy();
       res.send({ mensagem: 'Sonho deletado com sucesso' });
     } catch (error) {
-      
       res.status(error.statusCode).send({ error: error.message });
     }
   },
 
   async updatePic(req, res) {
-
     try {
       const { id } = req.params;
 
       const dream = await Dream.findByPk(id);
 
       if (!dream) {
-        throw new AppError({message: `não foi encontrado o sonho com o id: ${id}`, statusCode: 400});
+        throw new AppError({
+          message: `não foi encontrado o sonho com o id: ${id}`,
+          statusCode: 400,
+        });
       }
 
       dream.picture = req.file.firebaseUrl;
@@ -204,10 +215,8 @@ module.exports = {
       await dream.save();
 
       res.send({ dream });
-
     } catch (err) {
       res.status(err.statusCode).send({ err: err.message });
     }
-  }
-
+  },
 };
