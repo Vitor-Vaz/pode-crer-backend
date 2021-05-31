@@ -21,7 +21,14 @@ module.exports = {
         throw new AppError({
           message:
             'Não foi possivel fazer doação, valor de créditos insuficiente!',
-          statusCode: 203,
+          statusCode: 400,
+        });
+      }
+
+      if (value <= 0) {
+        throw new AppError({
+          message: 'O valor da doação deve ser maior do que zero',
+          statusCode: 400,
         });
       }
 
@@ -44,7 +51,7 @@ module.exports = {
 
       res.send(donate);
     } catch (err) {
-      res.status(err.statusCode).send({ err: err.message });
+      res.status(err.statusCode).send({ message: err.message });
     }
   },
 
