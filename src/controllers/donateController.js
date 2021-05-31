@@ -79,15 +79,12 @@ module.exports = {
         where: {
           userId: `${id}`,
         },
+        include: [{
+          model: Dream,
+          as: 'dream',
+          attributes: ['title', 'picture'],
+        }],
       });
-
-      if (!donates.length) {
-        throw new AppError({
-          message:
-            'Não foram encontrado registros de doações para esse usuario',
-          statusCode: 404,
-        });
-      }
       res.send(donates);
     } catch (error) {
       res.status(error.statusCode).send({ error: error.message });
