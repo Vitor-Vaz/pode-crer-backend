@@ -5,7 +5,7 @@ require('./config/firebase');
 require('./config/db');
 const swaggerUi = require('swagger-ui-express');
 const cors = require('cors');
-const swaggerFile = require('../swagger_output.json');
+const swaggerFile = require('../docs/swagger/swagger_output.json');
 const globalError = require('./middlewares/globalError');
 
 const port = process.env.PORT || 3000;
