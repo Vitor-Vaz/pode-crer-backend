@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon ./src/server.js",
     "start": "node ./src/server.js",
+    "swagger-autogen": "node ./swagger.js",
     "lint": "eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,7 +37,9 @@
     "ramda": "^0.27.1",
     "sequelize": "^6.6.2",
     "sqlite": "^4.0.21",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "swagger-ui-express": "^4.1.6",
+    "swagger-autogen": "^2.9.1"
   },
   "devDependencies": {
     "eslint": "^7.26.0",
